@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: Arial, "Segoe UI Light";
+    box-sizing: border-box;
+}
+
+.hamburger{
+    display: none;
+}
+.logo{
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+.navBar ul{
+    display: flex;
+}
+.navBar ul li a{
+    display: block;
+    color: white;
+    font-size: 20px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: 0.2s;
+    margin: 0 5px;
+}
+
+.navBar ul li a:hover{
+    color: #11101b;
+    background-color: white;
+}
+@media only screen and (max-width: 1320px){
+    header{
+        padding: 0 50px;
+    }
+}
+@media only screen and (max-width: 1100px){
+    header{
+        padding: 0 30px;
+    }
+}
+@media only screen and (max-width: 900px){
+    .hamburger{
+        display: block;
+        cursor: pointer;
+    }
+    .hamburger .line{
+        width: 30px;
+        height: 3px;
+        background: white;
+        margin: 6px 0;
+    }
+    .navBar{
+        height: 0;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        background: #11101b;
+        transition: 0.2s;
+        overflow: hidden;
+    }
+    .navBar.active{
+        height: 450px;
+    }
+    .navBar ul{
+        display: block;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+    }
+    .navBar.active ul{
+        opacity: 1;
+    }
+    .navBar ul li a{
+        margin-bottom: 12px;
+    }
+}
