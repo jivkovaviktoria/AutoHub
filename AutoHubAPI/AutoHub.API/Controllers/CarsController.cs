@@ -1,5 +1,6 @@
 ﻿using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
+using AutoHub.Data.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 namespace AutoHub.API.Controllers;
@@ -32,5 +33,16 @@ public class CarsController : ControllerBase
     {
         var cars = await this._repository.GetAll();
         return Ok(cars);
+    }
+
+    [HttpPost]
+    [Route("/Add")]
+    public async Task<IActionResult> Add(CarInfoViewModel entity)
+    {
+        var car = this._mapper.Map<Car>(entity);
+        car.Id = new Guid();
+        
+        await this._repository.Add(car);
+        return CreatedAtAction(nameof(GetCar), new {id = car.Id}, car);
     }
 }

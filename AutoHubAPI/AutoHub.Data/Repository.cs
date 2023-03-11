@@ -22,4 +22,11 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         return await this._context.Set<TEntity>().ToListAsync();
     }
+
+    public async Task<TEntity> Add(TEntity entity)
+    {
+        await this._context.Set<TEntity>().AddAsync(entity);
+        await this._context.SaveChangesAsync();
+        return entity;
+    }
 }

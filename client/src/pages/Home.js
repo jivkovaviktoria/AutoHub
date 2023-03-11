@@ -1,10 +1,10 @@
-import {NavigationBar} from "../components/navigationBar/NavigationBar";
+import image from '../images/homepage.jpg'
+import styles from './Home.module.css'
 
 export const Home = () => {
     return (
         <div>
-            <NavigationBar/>
-            <h1>Home</h1>
+            <img className={styles.image} src={image}/>
         </div>
     );
 }

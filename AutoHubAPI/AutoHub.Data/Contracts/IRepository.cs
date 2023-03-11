@@ -5,4 +5,5 @@ public interface IRepository<TEntity>
 {
     Task<TEntity> Get(Guid id);
     Task<ICollection<TEntity>> GetAll();
+    Task<TEntity> Add(TEntity entity);
 }
