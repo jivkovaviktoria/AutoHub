@@ -1,5 +1,6 @@
 ﻿using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 namespace AutoHub.API.Controllers;
 
@@ -7,10 +8,12 @@ namespace AutoHub.API.Controllers;
 public class CarsController : ControllerBase
 {
     private readonly IRepository<Car> _repository;
+    private readonly IMapper _mapper;
 
-    public CarsController(IRepository<Car> repository)
+    public CarsController(IRepository<Car> repository, IMapper mapper)
     {
         this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet]

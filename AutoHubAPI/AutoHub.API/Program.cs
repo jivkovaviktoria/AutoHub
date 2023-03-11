@@ -1,5 +1,7 @@
 using AutoHub.Data;
 using AutoHub.Data.Contracts;
+using AutoHub.Data.Profiles;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AutoHubDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+var mapperConfig = new MapperConfiguration(mc => {
+    mc.AddProfile(new CarProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
