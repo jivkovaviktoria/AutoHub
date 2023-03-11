@@ -78,7 +78,7 @@
     .navBar.active ul{
         opacity: 1;
     }
-    .navBar ul li a{
+    .navBar ul li{
         margin-bottom: 12px;
     }
 }

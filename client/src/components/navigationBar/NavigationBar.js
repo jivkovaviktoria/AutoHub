@@ -18,8 +18,8 @@ export const NavigationBar = () => {
             </div>
             <nav className={`${styles.navBar} ${isActive ? `${styles.active}` : ''}`}>
                 <ul>
-                    <li><a href="" className={styles.active}>Home</a></li>
-                    <li><a href="">Cars</a></li>
+                    <li><a href='/'>Home</a></li>
+                    <li><a href='/cars'>Cars</a></li>
                 </ul>
             </nav>
         </header>
