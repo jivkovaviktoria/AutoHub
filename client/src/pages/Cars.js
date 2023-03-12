@@ -6,7 +6,7 @@ import { Card } from "../components/card/Card";
 export const Cars = () => {
     const [cars, setCars] = useState([]);
     const [property, setProperty] = useState(null);
-    const [direction, setDirection] = useState(null);
+    const [direction, setDirection] = useState("asc");
 
     useEffect(() => {
         carsService.GetAll().then((cars) => setCars(cars));
@@ -28,10 +28,10 @@ export const Cars = () => {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles['order-form']}>
+            <div className={styles["order-form"]}>
                 <label>
                     OrderBy
-                    <select value={property} onChange={propertyHandler}>
+                    <select className={styles.select} value={property} onChange={propertyHandler}>
                         <option value="">Select a property</option>
                         <option value="brand">Make</option>
                         <option value="model">Model</option>
@@ -41,17 +41,19 @@ export const Cars = () => {
                 </label>
                 <label>
                     Direction:
-                    <select value={direction} onChange={directionHandler}>
-                        <option value="">Select a direction</option>
+                    <select className={styles.select} value={direction} onChange={directionHandler}>
+                        <option value="asc">Select a direction</option>
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
                     </select>
                 </label>
                 <button onClick={orderHandler}>Order</button>
             </div>
-            {cars.map((car) => (
-                <Card key={car.id} car={car} />
-            ))}
+            <div className={styles["cars-wrapper"]}>
+                {cars.map((car) => (
+                    <Card key={car.id} car={car} />
+                ))}
+            </div>
         </div>
     );
 };
