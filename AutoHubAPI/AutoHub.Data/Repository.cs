@@ -1,4 +1,6 @@
-﻿using AutoHub.Data.Contracts;
+﻿using System.ComponentModel;
+using System.Reflection;
+using AutoHub.Data.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoHub.Data;
@@ -28,5 +30,19 @@ public class Repository<TEntity> : IRepository<TEntity>
         await this._context.Set<TEntity>().AddAsync(entity);
         await this._context.SaveChangesAsync();
         return entity;
+    }
+
+    public async Task<IOrderedEnumerable<TEntity>> OrderCars(string orderBy, [DefaultValue("asc")]string direction)
+    {
+        var cars = await this._context.Set<TEntity>().ToListAsync();
+
+        var property = typeof(TEntity).GetProperty(orderBy,
+            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+        var ordered = direction.Equals("desc", StringComparison.OrdinalIgnoreCase)
+            ? cars.OrderByDescending(x => property.GetValue(x))
+            : cars.OrderBy(x => property.GetValue(x));
+
+        return ordered;
     }
 }

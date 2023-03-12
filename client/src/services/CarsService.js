@@ -18,3 +18,9 @@ export const Add = async (carData) => {
     console.log(result);
     return result;
 }
+
+export const OrderBy = async (property, direction) => {
+    const response = await fetch(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`);
+    const result = response.json();
+    return result;
+}

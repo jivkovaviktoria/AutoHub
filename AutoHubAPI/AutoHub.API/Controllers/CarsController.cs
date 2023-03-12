@@ -45,4 +45,12 @@ public class CarsController : ControllerBase
         await this._repository.Add(car);
         return CreatedAtAction(nameof(GetCar), new {id = car.Id}, car);
     }
+
+    [HttpGet]
+    [Route("/GetCarsOrdered")]
+    public async Task<IActionResult> GetCarsOrdered(string property, string direction)
+    {
+        var result = await this._repository.OrderCars(property, direction);
+        return Ok(result);
+    }
 }
