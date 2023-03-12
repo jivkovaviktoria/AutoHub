@@ -1,8 +1,10 @@
 import {AddCarForm} from "../components/addCarForm/AddCarForm";
-import * as CarsService from '../services/CarsService';
+import styles from './Add.module.css';
 
 export const Add = () => {
     return (
-        <AddCarForm/>
+        <div className={styles.wrapper}>
+            <AddCarForm/>
+        </div>
     );
 }

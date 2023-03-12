@@ -1,9 +1,46 @@
 .wrapper{
-    margin: 0;
-    padding: 0;
-    background-color: lightgrey;
+    max-width: 500px;
+    padding: 20px 12px 10px 20px;
+    font: 13px Arial, Helvetica, sans-serif;
 }
-
-Form{
-    background-color: white;
+.heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-family: "Arial Black";
+    padding-bottom: 3px;
+    display: flex;
+    justify-content: center;
+}
+label{
+    display: block;
+    margin: 0px 0px 15px 0px;
+    align-self: flex-start;
+}
+button{
+    padding: 10px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 1rem;
+    border: 2px solid #e72020;
+    background: transparent;
+    color: #e72020;
+    border-radius: 20px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #e72020;
+    color: white;
+}
+input{
+    width: 100%;
+    padding: 8px 16px;
+    margin: 6px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
