@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import * as carsService from "../services/CarsService";
 import styles from "./Cars.module.css";
 import { Card } from "../components/card/Card";
+import {Info} from "./Info";
 
 export const Cars = () => {
     const [cars, setCars] = useState([]);
+    const [selectedCar, setSelectedCar] = useState(null);
     const [property, setProperty] = useState(null);
     const [direction, setDirection] = useState("asc");
 
@@ -26,8 +28,19 @@ export const Cars = () => {
             .then((orderedCars) => setCars(orderedCars));
     };
 
+    const selectCarHandler = (carId) => {
+        carsService.GetSingle(carId)
+            .then(car => setSelectedCar(car));
+    }
+
+    const closeInfoHandler = () => {
+        setSelectedCar(null);
+    }
+    
     return (
         <div className={styles.wrapper}>
+            {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
+
             <div className={styles["order-form"]}>
                 <label>
                     OrderBy
@@ -51,7 +64,7 @@ export const Cars = () => {
             </div>
             <div className={styles["cars-wrapper"]}>
                 {cars.map((car) => (
-                    <Card key={car.id} car={car} />
+                    <Card key={car.id} car={car} onInfoClick={selectCarHandler} />
                 ))}
             </div>
         </div>

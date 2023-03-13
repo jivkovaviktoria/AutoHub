@@ -5,6 +5,11 @@ export const GetAll = async () => {
     return await response.json();
 }
 
+export const GetSingle = async (carId) => {
+    const response = await fetch(baseUrl + `/Car?id=${carId}`);
+    return await response.json();
+}
+
 export const Add = async (carData) => {
     const response = await fetch(baseUrl + `/Add`, {
         method: 'POST',

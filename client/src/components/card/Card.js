@@ -8,7 +8,7 @@ export const Card = (props) => {
                 <h2 className={styles['card-title']}>{props.car.model}</h2>
                 <p className={styles['card-description']}>{props.car.brand}</p>
             </div>
-            <button className={styles['card-button']}>Full Info</button>
+            <button className={styles['card-button']} onClick={() => props.onInfoClick(props.car.id)}>Full Info</button>
         </div>
     );
 }
