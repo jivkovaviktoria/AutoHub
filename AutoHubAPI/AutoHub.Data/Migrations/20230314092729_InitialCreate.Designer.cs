@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoHub.Data.Migrations
 {
     [DbContext(typeof(AutoHubDbContext))]
-    [Migration("20230304112512_InitialCreate")]
+    [Migration("20230314092729_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
