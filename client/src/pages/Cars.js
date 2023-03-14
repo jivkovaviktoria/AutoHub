@@ -36,11 +36,9 @@ export const Cars = () => {
     const closeInfoHandler = () => {
         setSelectedCar(null);
     }
-    
+
     return (
         <div className={styles.wrapper}>
-            {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
-
             <div className={styles["order-form"]}>
                 <label>
                     OrderBy
@@ -67,6 +65,7 @@ export const Cars = () => {
                     <Card key={car.id} car={car} onInfoClick={selectCarHandler} />
                 ))}
             </div>
+            {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
         </div>
     );
 };
