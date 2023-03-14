@@ -15,4 +15,22 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* add some shadow */
+    margin: 300px;
+}
+.heading{
+    font-size: 30px;
+}
+p{
+    font-size: 20px;
+    margin: 20px;
+}
+strong{
+    font-family: "Segoe UI Light";
+    font-size: 15px;
+}
+.car-details{
+    text-align: left;
+}
+img{
+    width: 300px;
 }
