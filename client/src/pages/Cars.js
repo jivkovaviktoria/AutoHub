@@ -30,7 +30,7 @@
         };
 
         const selectCarHandler = (carId) => {
-            carsService.GetSingle(carId)
+            carsService.GetSingle(carId, localStorage.getItem('token'))
                 .then(car => setSelectedCar(car));
         }
 

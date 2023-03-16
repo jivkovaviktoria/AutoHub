@@ -15,8 +15,12 @@ export const GetAll = async (token) => {
     return data;
 }
 
-export const GetSingle = async (carId) => {
-    const response = await fetch(baseUrl + `/Car?id=${carId}`);
+export const GetSingle = async (carId, token) => {
+    const response = await fetch(baseUrl + `/Car?id=${carId}`, {
+        headers:{
+            'Authorization': `Bearer ${token}`
+        },
+    });
     return await response.json();
 }
 
