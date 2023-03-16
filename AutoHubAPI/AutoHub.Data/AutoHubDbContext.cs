@@ -1,9 +1,11 @@
 ﻿using AutoHub.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoHub.Data;
 
-public class AutoHubDbContext : DbContext
+public class AutoHubDbContext : IdentityUserContext<IdentityUser>
 {
     public AutoHubDbContext(DbContextOptions options) : base(options)
     { }

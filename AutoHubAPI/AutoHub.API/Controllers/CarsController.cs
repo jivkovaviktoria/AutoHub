@@ -2,6 +2,7 @@
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace AutoHub.API.Controllers;
 
@@ -17,7 +18,7 @@ public class CarsController : ControllerBase
         this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("/Car")]
     public async Task<IActionResult> GetCar(Guid id)
     {
@@ -27,7 +28,7 @@ public class CarsController : ControllerBase
         return Ok(car);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("/AllCars")]
     public async Task<IActionResult> GetAllCars()
     {
@@ -35,7 +36,7 @@ public class CarsController : ControllerBase
         return Ok(cars);
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     [Route("/Add")]
     public async Task<IActionResult> Add(CarInfoViewModel entity)
     {
@@ -46,7 +47,7 @@ public class CarsController : ControllerBase
         return CreatedAtAction(nameof(GetCar), new {id = car.Id}, car);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("/GetCarsOrdered")]
     public async Task<IActionResult> GetCarsOrdered(string property, string direction)
     {

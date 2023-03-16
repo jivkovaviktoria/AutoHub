@@ -1,8 +1,18 @@
 const baseUrl = 'https://localhost:7299';
 
-export const GetAll = async () => {
-    const response = await fetch(baseUrl + `/AllCars`);
-    return await response.json();
+export const GetAll = async (token) => {
+    const response = await fetch(baseUrl + '/AllCars', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+    if(!response.ok){
+        throw new Error("error");
+    }
+
+    const data = await response.json();
+    return data;
 }
 
 export const GetSingle = async (carId) => {
