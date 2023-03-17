@@ -24,11 +24,12 @@ export const GetSingle = async (carId, token) => {
     return await response.json();
 }
 
-export const Add = async (carData) => {
+export const Add = async (carData, token) => {
     const response = await fetch(baseUrl + `/Add`, {
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(carData)
     });
