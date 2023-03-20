@@ -11,8 +11,12 @@
         const [direction, setDirection] = useState("asc");
 
         useEffect(() => {
-            const token = sessionStorage.getItem('token');
-            carsService.GetAll(token).then((cars) => setCars(cars));
+            const GetCars = async () => {
+                const token = sessionStorage.getItem('token');
+                return await carsService.GetAll();
+            }
+
+            GetCars().then(res => setCars(res));
         }, []);
 
         const propertyHandler = (e) => {
@@ -25,12 +29,12 @@
 
         const orderHandler = () => {
             carsService
-                .OrderBy(property, direction, sessionStorage.getItem('token'))
+                .OrderBy(property, direction)
                 .then((orderedCars) => setCars(orderedCars));
         };
 
         const selectCarHandler = (carId) => {
-            carsService.GetSingle(carId, sessionStorage.getItem('token'))
+            carsService.GetSingle(carId)
                 .then(car => setSelectedCar(car));
         }
 

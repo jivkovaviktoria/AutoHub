@@ -1,50 +1,25 @@
+import axios from "axios";
+
+const config = {headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }};
+
 const baseUrl = 'https://localhost:7299';
 
-export const GetAll = async (token) => {
-    const response = await fetch(baseUrl + '/AllCars', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-    });
-
-    if(!response.ok){
-        throw new Error("error");
-    }
-
-    const data = await response.json();
-    return data;
+export const GetAll = async () => {
+    const response = await axios.get(`${baseUrl}/AllCars`, config);
+    return response.data;
 }
 
-export const GetSingle = async (carId, token) => {
-    const response = await fetch(baseUrl + `/Car?id=${carId}`, {
-        headers:{
-            'Authorization': `Bearer ${token}`
-        },
-    });
-    return await response.json();
+export const GetSingle = async (carId) => {
+    const response = await axios.get(`${baseUrl}/Car?id=${carId}`, config);
+    return response.data;
 }
 
-export const Add = async (carData, token) => {
-    const response = await fetch(baseUrl + `/Add`, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(carData)
-    });
-
-    const result = await response.json();
-    console.log(result);
-    return result;
+export const Add = async (carData) => {
+    const response = await axios.post(`${baseUrl}/Add`, carData, config);
+    return response.data;
 }
 
-export const OrderBy = async (property, direction, token) => {
-    const response = await fetch(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-    const result = response.json();
-    return result;
+export const OrderBy = async (property, direction) => {
+    const response = await axios.get(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`, config);
+    return response.data;
 }
