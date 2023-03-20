@@ -16,7 +16,7 @@ export const AddCarForm = ({onCarAdd}) => {
         const data = new FormData(e.target);
         const carData = Object.fromEntries(data);
 
-        CarsService.Add(carData, localStorage.getItem('token'))
+        CarsService.Add(carData, sessionStorage.getItem('token'))
             .then(car => console.log(car));
 
         modelInputRef.current.value = '';

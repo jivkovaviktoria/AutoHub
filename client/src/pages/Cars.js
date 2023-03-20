@@ -11,7 +11,7 @@
         const [direction, setDirection] = useState("asc");
 
         useEffect(() => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             carsService.GetAll(token).then((cars) => setCars(cars));
         }, []);
 
@@ -25,12 +25,12 @@
 
         const orderHandler = () => {
             carsService
-                .OrderBy(property, direction, localStorage.getItem('token'))
+                .OrderBy(property, direction, sessionStorage.getItem('token'))
                 .then((orderedCars) => setCars(orderedCars));
         };
 
         const selectCarHandler = (carId) => {
-            carsService.GetSingle(carId, localStorage.getItem('token'))
+            carsService.GetSingle(carId, sessionStorage.getItem('token'))
                 .then(car => setSelectedCar(car));
         }
 
@@ -40,7 +40,7 @@
 
         return (
             <>
-            {localStorage.getItem('token') ? (
+            {sessionStorage.getItem('token') ? (
             <div className={styles.wrapper}>
                 <div className={styles["order-form"]}>
                     <label>

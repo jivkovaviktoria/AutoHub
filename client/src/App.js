@@ -13,17 +13,17 @@ function App() {
     const [token, setToken] = useState("");
 
     const RegisterHandler  = (token) => {
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
     }
 
     const LoginHandler = (token) => {
-        localStorage.setItem("token", token);
+        sessionStorage.setItem('token', token);
         setToken(token);
     };
 
   return (
       <div className="App">
-          {localStorage.getItem('token') ? (
+          {sessionStorage.getItem('token') ? (
               <>
               <NavigationBar/>
               <Routes>
