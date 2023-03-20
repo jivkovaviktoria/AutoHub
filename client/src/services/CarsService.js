@@ -39,8 +39,12 @@ export const Add = async (carData, token) => {
     return result;
 }
 
-export const OrderBy = async (property, direction) => {
-    const response = await fetch(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`);
+export const OrderBy = async (property, direction, token) => {
+    const response = await fetch(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
     const result = response.json();
     return result;
 }

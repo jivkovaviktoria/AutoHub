@@ -25,7 +25,7 @@
 
         const orderHandler = () => {
             carsService
-                .OrderBy(property, direction)
+                .OrderBy(property, direction, localStorage.getItem('token'))
                 .then((orderedCars) => setCars(orderedCars));
         };
 
