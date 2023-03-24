@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using AutoHub.Core.Contracts;
+using AutoHub.Core.Services;
 using AutoHub.Data;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
@@ -85,6 +87,7 @@ builder.Services.AddScoped<TokenService, TokenService>();
 
 builder.Services.AddDbContext<AutoHubDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
 var mapperConfig = new MapperConfiguration(mc => {
     mc.AddProfile(new CarProfile());

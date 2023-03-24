@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AutoHub.Data.Models;
+﻿namespace AutoHub.Data.Models;
 
 public class Car : BaseEntity
 {
@@ -11,8 +9,8 @@ public class Car : BaseEntity
     public string ImageUrl { get; set; } = null!;
     public string Description { get; set; } = null!;
 
-    public bool IsSold { get; set; } = false;
+    public bool IsSold { get; set; }
 
-    public string UserId { get; set; }
-    public User User { get; set; }
+    public string UserId { get; set; } = null!;
+    public User User { get; set; } = null!;
 }

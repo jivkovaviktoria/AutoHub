@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AutoHub.Core\AutoHub.Core.csproj" />
       <ProjectReference Include="..\AutoHub.Data\AutoHub.Data.csproj" />
     </ItemGroup>
 

@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using AutoHub.Data.Contracts;
+﻿using AutoHub.Data.Contracts;
+using AutoHub.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoHub.Data;
@@ -14,35 +13,74 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         this._context = context ?? throw new ArgumentNullException(nameof(context));
     }
-    
-    public async Task<TEntity> Get(Guid id)
+
+
+    public async Task<OperationResult<bool>> AnyAsync(Guid id)
     {
-        return await this._context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        var operationResult = new OperationResult<bool>();
+
+        try
+        {
+            var result = await this._context.Set<TEntity>().AnyAsync(x => x.Id == id);
+            operationResult.Data = result;
+        }
+        catch (Exception e)
+        {
+            operationResult.AddException(e);
+        }
+
+        return operationResult;
     }
 
-    public async Task<ICollection<TEntity>> GetAll()
+    public async Task<OperationResult<TEntity>> GetAsync(Guid id)
     {
-        return await this._context.Set<TEntity>().ToListAsync();
+        var operationResult = new OperationResult<TEntity>();
+
+        try
+        {
+            var result = await this._context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+            operationResult.Data = result;
+        }
+        catch (Exception e)
+        {
+            operationResult.AddException(e);
+        }
+
+        return operationResult;
     }
 
-    public async Task<TEntity> Add(TEntity entity)
+    public async Task<OperationResult<IEnumerable<TEntity>>> GetManyAsync()
     {
-        await this._context.Set<TEntity>().AddAsync(entity);
-        await this._context.SaveChangesAsync();
-        return entity;
+        var operationResult = new OperationResult<IEnumerable<TEntity>>();
+
+        try
+        {
+            var result = await this._context.Set<TEntity>().ToListAsync();
+            operationResult.Data = result;
+        }
+        catch (Exception e)
+        {
+            operationResult.AddException(e);
+        }
+
+        return operationResult;
     }
 
-    public async Task<IOrderedEnumerable<TEntity>> OrderCars(string orderBy, [DefaultValue("asc")]string direction)
+    public async Task<OperationResult> CreateAsync(TEntity entity)
     {
-        var cars = await this._context.Set<TEntity>().ToListAsync();
+        var operationResult = new OperationResult();
+        if (entity is null) return operationResult;
 
-        var property = typeof(TEntity).GetProperty(orderBy,
-            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+        try
+        {
+            await this._context.Set<TEntity>().AddAsync(entity);
+            await this._context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            operationResult.AddException(e);
+        }
 
-        var ordered = direction.Equals("desc", StringComparison.OrdinalIgnoreCase)
-            ? cars.OrderByDescending(x => property.GetValue(x))
-            : cars.OrderBy(x => property.GetValue(x));
-
-        return ordered;
+        return operationResult;
     }
 }

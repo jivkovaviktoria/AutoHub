@@ -1,12 +1,13 @@
-﻿using AutoHub.Utilities;
+﻿using AutoHub.Data.Contracts;
+using AutoHub.Utilities;
 
-namespace AutoHub.Data.Contracts;
+namespace AutoHub.Core.Contracts;
 
-public interface IRepository<TEntity>
+public interface IService<TEntity>
     where TEntity : class, IEntity
 {
     Task<OperationResult<bool>> AnyAsync(Guid id);
     Task<OperationResult<TEntity>> GetAsync(Guid id);
     Task<OperationResult<IEnumerable<TEntity>>> GetManyAsync();
-    Task<OperationResult> CreateAsync(TEntity entity);
+    Task<OperationResult<TEntity>> CreateAsync(TEntity entity);
 }

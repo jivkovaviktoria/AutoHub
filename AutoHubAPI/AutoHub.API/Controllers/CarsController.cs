@@ -1,7 +1,5 @@
-﻿using System.Security.Claims;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using AutoHub.Data.Contracts;
+﻿using AutoHub.API.Extensions;
+using AutoHub.Core.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
 using AutoMapper;
@@ -16,70 +14,79 @@ namespace AutoHub.API.Controllers;
 public class CarsController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
-    private readonly IRepository<Car> _repository;
+    private readonly IService<Car> _carService;
     private readonly IMapper _mapper;
 
-    public CarsController(UserManager<User> userManager, IRepository<Car> repository, IMapper mapper)
+    public CarsController(UserManager<User> userManager, IService<Car> carService, IMapper mapper)
     {
         this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
         this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        this._carService = carService ?? throw new ArgumentNullException(nameof(carService));
     }
 
     [HttpGet, Authorize]
     [Route("/Car")]
     public async Task<IActionResult> GetCar(Guid id)
     {
-        var car = await this._repository.Get(id);
-        
-        if (car == null) return NotFound();
-        return Ok(car);
+        var car = await this._carService.GetAsync(id);
+
+        var result = car.Data;
+        return this.Ok(result);
     }
 
     [HttpGet, Authorize]
     [Route("/AllCars")]
     public async Task<IActionResult> GetAllCars()
     {
-        var cars = await this._repository.GetAll();
-        return Ok(cars);
+        var cars = await this._carService.GetManyAsync();
+        if (!cars.IsSuccessful) return this.Error(cars);
+
+        var result = cars.Data.Select(x => this.ToViewModel(x));
+        return this.Ok(result);
     }
 
     [HttpGet, Authorize]
-    [Route("/GetAllCarsByUser")]
+    [Route("GetCarsByUser")]
     public async Task<IActionResult> GetCarsByUser()
     {
-        var cp = HttpContext.User;
-        var userEmail = cp.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        var claims = HttpContext.User;
+        var user = await this._userManager.Users
+            .Where(u => u.UserName == claims.Identity.Name)
+            .Include(x => x.Cars)
+            .Select(u => new { Cars = u.Cars.Select(c => new { c.Model, c.Brand, c.Year, c.Price }) })
+            .ToListAsync();
 
-        var user = await this._userManager.Users.Include(x => x.Cars)
-            .FirstOrDefaultAsync(x => x.Email == userEmail);
-        
-        return Ok(user.Cars);
+        return this.Ok(user);
     }
 
     [HttpPost, Authorize]
     [Route("/Add")]
     public async Task<IActionResult> Add(CarInfoViewModel entity)
     {
-        var car = this._mapper.Map<Car>(entity);
-        car.Id = new Guid();
+        var dbModel = this.ToDatabaseModel(entity);
+        var car = await this.SetUserAsync(dbModel);
 
-        var claims = HttpContext.User;
-        var user = await this._userManager.FindByEmailAsync("test2@abv.bg");
-        
-        user.Cars.Add(car);
-        car.UserId = user.Id;
-        
-        await this._repository.Add(car);
+        var result = await this._carService.CreateAsync(car);
+        if (!result.IsSuccessful) return this.Error(result);
         
         return CreatedAtAction(nameof(GetCar), new {id = car.Id}, car);
     }
+    private object ToViewModel(Car car) => this._mapper.Map<CarInfoViewModel>(car);
 
-    [HttpGet, Authorize]
-    [Route("/GetCarsOrdered")]
-    public async Task<IActionResult> GetCarsOrdered(string property, string direction)
+    private Car ToDatabaseModel(CarInfoViewModel viewModel)
     {
-        var result = await this._repository.OrderCars(property, direction);
-        return Ok(result);
+        var car = this._mapper.Map<Car>(viewModel);
+        car.Id = Guid.NewGuid();
+        return car;
+    }
+
+    private async Task<Car> SetUserAsync(Car car)
+    {
+        var claims = HttpContext.User;
+        var user = await this._userManager.FindByNameAsync(claims.Identity?.Name);
+        
+        user.Cars.Add(car);
+        car.UserId = user.Id;
+        return car;
     }
 }
