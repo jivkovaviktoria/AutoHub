@@ -1,5 +1,6 @@
 ﻿using AutoHub.Data;
 using AutoHub.Data.IdentityModels;
+using AutoHub.Data.Models;
 using AutoHub.Data.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,11 @@ namespace AutoHub.API.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<User> _userManager;
     private readonly AutoHubDbContext _context;
     private readonly TokenService _tokenService;
     
-    public AuthController(UserManager<IdentityUser> userManager, AutoHubDbContext context, TokenService tokenService)
+    public AuthController(UserManager<User> userManager, AutoHubDbContext context, TokenService tokenService)
     {
         this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         this._context = context ?? throw new ArgumentNullException(nameof(context));
@@ -31,7 +32,7 @@ public class AuthController : ControllerBase
         }
 
         var result = await _userManager.CreateAsync(
-            new IdentityUser { UserName = request.Username, Email = request.Email },
+            new User { UserName = request.Username, Email = request.Email },
             request.Password
         );
         if (result.Succeeded)

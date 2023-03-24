@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoHub.Data;
 
-public class AutoHubDbContext : IdentityUserContext<IdentityUser>
+public class AutoHubDbContext : IdentityUserContext<User>
 {
     public AutoHubDbContext(DbContextOptions options) : base(options)
     { }
@@ -20,12 +20,11 @@ public class AutoHubDbContext : IdentityUserContext<IdentityUser>
         modelBuilder.Entity<Car>().Property(x => x.ImageUrl).IsRequired();
         modelBuilder.Entity<Car>().Property(x => x.Year).IsRequired();
         modelBuilder.Entity<Car>().Property(x => x.Price).IsRequired();
-                
-        base.OnModelCreating(modelBuilder);
-    }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
+        modelBuilder.Entity<Car>().HasOne(c => c.User)
+            .WithMany(u => u.Cars)
+            .HasForeignKey(c => c.UserId);
+        
+        base.OnModelCreating(modelBuilder);
     }
 }
