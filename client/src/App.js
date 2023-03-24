@@ -8,6 +8,7 @@ import {Add} from "./pages/Add";
 import {RegistrationForm} from "./components/registrationForm/RegistrationForm";
 import {LoginForm} from "./components/loginForm/LoginForm";
 import {useState} from "react";
+import {Account} from "./pages/Account";
 
 function App() {
     const [token, setToken] = useState("");
@@ -30,6 +31,7 @@ function App() {
                   <Route path='/' element={<Home/>}/>
                   <Route path='/cars' element={<Cars/>}/>
                   <Route path='/add' element={<Add/>}/>
+                  <Route path='/account' element={<Account/>}/>
               </Routes>
               </>
           ) : (

@@ -2,6 +2,9 @@ import { useRef } from 'react';
 import styles from './AddCarForm.module.css';
 import * as CarsService from "../../services/CarsService";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const AddCarForm = ({onCarAdd}) => {
     const modelInputRef = useRef(null);
     const brandInputRef = useRef(null);
@@ -25,6 +28,8 @@ export const AddCarForm = ({onCarAdd}) => {
         descriptionInputRef.current.value = '';
         imageInputRef.current.value = '';
     }
+
+    const notify = () => toast.success("Added successfully!");
 
     return (
         <div className={styles.wrapper}>
@@ -54,7 +59,8 @@ export const AddCarForm = ({onCarAdd}) => {
                     Image:
                     <input type="text" name="imageUrl" ref={imageInputRef}/>
                 </label>
-                <button type="submit">Add</button>
+                <button type="submit" onClick={notify}>Add</button>
+                <ToastContainer theme='dark' autoClose={3000} limit={3} typ/>
             </form>
         </div>
     );

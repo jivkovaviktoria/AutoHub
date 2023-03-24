@@ -21,6 +21,7 @@ export const NavigationBar = () => {
                     <li><a href='/'>Home</a></li>
                     <li><a href='/Cars'>Cars</a></li>
                     <li><a href='/Add'>Add</a></li>
+                    <li><a href='/Account'>Account</a></li>
                 </ul>
             </nav>
         </header>

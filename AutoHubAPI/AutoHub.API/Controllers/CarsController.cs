@@ -53,7 +53,7 @@ public class CarsController : ControllerBase
         var user = await this._userManager.Users
             .Where(u => u.UserName == claims.Identity.Name)
             .Include(x => x.Cars)
-            .Select(u => new { Cars = u.Cars.Select(c => new { c.Model, c.Brand, c.Year, c.Price }) })
+            .Select(u => new { Cars = u.Cars.Select(c => new { c.Model, c.Brand, c.Year, c.Price, c.ImageUrl, c.Description }) })
             .ToListAsync();
 
         return this.Ok(user);

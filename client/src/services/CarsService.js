@@ -23,3 +23,9 @@ export const OrderBy = async (property, direction) => {
     const response = await axios.get(`${baseUrl}/GetCarsOrdered?property=${property}&direction=${direction}`, config);
     return response.data;
 }
+
+export const GetCarsByUser = async () => {
+    const response = await axios.get(`${baseUrl}/GetCarsByUser`, config);
+    console.log(response.data);
+    return response.data;
+}
