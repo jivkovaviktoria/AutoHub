@@ -11,12 +11,12 @@
         const [direction, setDirection] = useState("asc");
 
         useEffect(() => {
-            const GetCars = async () => {
-                const token = sessionStorage.getItem('token');
-                return await carsService.GetAll();
+            const token = sessionStorage.getItem('token');
+            async function fetchData() {
+                const result = await carsService.GetAll();
+                setCars(result.$values);
             }
-
-            GetCars().then(res => setCars(res));
+            fetchData();
         }, []);
 
         const propertyHandler = (e) => {
@@ -41,7 +41,6 @@
         const closeInfoHandler = () => {
             setSelectedCar(null);
         }
-
         return (
             <>
             {sessionStorage.getItem('token') ? (
@@ -68,9 +67,9 @@
                     <button onClick={orderHandler}>Order</button>
                 </div>
                 <div className={styles["cars-wrapper"]}>
-                    {cars.map((car) => (
+                    {cars.length > 0 ? cars.map((car) => (
                         <Card key={car.id} car={car} onInfoClick={selectCarHandler} />
-                    ))}
+                    )) : <div>No cars to display</div>}
                 </div>
                 {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
             </div>
