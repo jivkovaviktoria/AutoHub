@@ -13,4 +13,6 @@ public class Car : BaseEntity
 
     public string UserId { get; set; } = null!;
     public User User { get; set; } = null!;
+
+    public virtual ICollection<User>? UsersFavourite { get; set; } = new List<User>();
 }

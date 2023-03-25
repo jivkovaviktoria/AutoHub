@@ -23,7 +23,10 @@ public class AutoHubDbContext : IdentityUserContext<User>
         modelBuilder.Entity<Car>().HasOne(c => c.User)
             .WithMany(u => u.Cars)
             .HasForeignKey(c => c.UserId);
-        
+
+        modelBuilder.Entity<Car>().HasMany(c => c.UsersFavourite)
+            .WithMany(u => u.FavouriteCars);
+
         base.OnModelCreating(modelBuilder);
     }
 }
