@@ -34,9 +34,9 @@ public class UserController : ControllerBase
         var user = await this._userManager.Users
             .Where(u => u.UserName == claims.Identity.Name)
             .Include(x => x.FavouriteCars)
-            .Select(u => new
+            .Select(us => new
             {
-                Cars = u.FavouriteCars.Select(x => new {x.Model, x.Brand, x.Year, x.Price, x.Id})
+                Cars = us.FavouriteCars.Select(x => ToViewModel(x, this._mapper))
             })
             .ToListAsync();
 
@@ -49,10 +49,13 @@ public class UserController : ControllerBase
     {
         var car = await this._carService.GetAsync(carId);
         if (car is null || !car.IsSuccessful) return this.NotFound();
-    
+
+        var result = car.Data;
+        
         var user = await this.GetUser();
         user.FavouriteCars.Add(car.Data);
-        car.Data.UsersFavourite.Add(user);
+        result.UsersFavourite.Add(user);
+        await this._context.SaveChangesAsync();
         return this.Ok();
     }
 
@@ -70,6 +73,10 @@ public class UserController : ControllerBase
         car.Id = Guid.NewGuid();
         return car;
     }
-    
-    private object ToViewModel(Car car) => this._mapper.Map<CarInfoViewModel>(car);
+
+    private static object ToViewModel(Car car, IMapper mapper)
+    {
+        var result = mapper.Map<CarInfoViewModel>(car);
+        return result;
+    }
 }

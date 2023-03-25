@@ -49,3 +49,8 @@ body{
     color: white;
     background-color: #E72020FF;
 }
+.favourite{
+    margin-left: 50px;
+    font-size: 20px;
+    cursor: pointer;
+}

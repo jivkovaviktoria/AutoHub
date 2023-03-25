@@ -26,6 +26,15 @@ export const OrderBy = async (property, direction) => {
 
 export const GetCarsByUser = async () => {
     const response = await axios.get(`${baseUrl}/GetCarsByUser`, config);
-    console.log(response.data);
+    return response.data;
+}
+
+export const SaveCar = async (carId) => {
+    const response = await axios.post(`${baseUrl}/AddToFavourite?carId=${carId}`, carId, config);
+    return response.data;
+}
+
+export const GetSavedCars = async () => {
+    const response = await axios.get(`${baseUrl}/GetFavourite`, config);
     return response.data;
 }

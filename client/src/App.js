@@ -39,7 +39,7 @@ function App() {
                 <RegistrationForm onRegister={RegisterHandler}/>
                 <LoginForm onLogin={LoginHandler}/>
               </>
-              )};
+              )}
       </div>
   );
 }

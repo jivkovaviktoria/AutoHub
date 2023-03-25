@@ -1,6 +1,17 @@
 import styles from './Card.module.css';
+import {BsBookmarkPlus, BsBookmarkPlusFill} from 'react-icons/bs';
+import {useState} from "react";
 
 export const Card = (props) => {
+    const [isSaved, setISaved] = useState(false);
+
+    const saveHandler = () => {
+        if(!isSaved){
+            props.onSaveClick(props.car.id);
+        }
+        setISaved(!isSaved);
+    }
+
     return (
         <div className={styles.card}>
             <div className={styles['card-body']}>
@@ -9,6 +20,10 @@ export const Card = (props) => {
                 <p className={styles['card-description']}>{props.car.brand}</p>
             </div>
             <button className={styles['card-button']} onClick={() => props.onInfoClick(props.car.id)}>Full Info</button>
+            {isSaved ?
+                <BsBookmarkPlusFill className={styles.favourite} onClick={saveHandler}/> :
+                <BsBookmarkPlus className={styles.favourite} onClick={saveHandler} />
+            }
         </div>
     );
 }

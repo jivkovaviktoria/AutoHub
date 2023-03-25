@@ -38,6 +38,10 @@
                 .then(car => setSelectedCar(car));
         }
 
+        const saveCarHandler = (carId) => {
+            carsService.SaveCar(carId).then(r => console.log(r));
+        }
+
         const closeInfoHandler = () => {
             setSelectedCar(null);
         }
@@ -68,7 +72,7 @@
                 </div>
                 <div className={styles["cars-wrapper"]}>
                     {cars.length > 0 ? cars.map((car) => (
-                        <Card key={car.id} car={car} onInfoClick={selectCarHandler} />
+                        <Card key={car.id} car={car} onInfoClick={selectCarHandler} onSaveClick={saveCarHandler}/>
                     )) : <div>No cars to display</div>}
                 </div>
                 {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
