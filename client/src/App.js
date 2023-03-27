@@ -2,7 +2,10 @@ import './App.css';
 
 import {NavigationBar} from "./components/navigationBar/NavigationBar";
 import {Route, Routes} from "react-router-dom";
-import {Cars, Home, Add, Account} from "./pages/";
+import {Cars} from "./pages/Cars";
+import {Home} from "./pages/Home";
+import {Add} from "./pages/Add";
+import {Account} from "./pages/Account";
 import {Auth} from "./components/auth/Auth";
 
 function App() {
