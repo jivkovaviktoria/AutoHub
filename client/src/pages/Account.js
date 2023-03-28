@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import * as CarsService from "../services/CarsService";
 import { Card } from "../components/card/Card";
 import styles from "./Account.module.css";
+import * as UserService from "../services/UserService";
 
 export const Account = () => {
     const [cars, setCars] = useState([]);
     const [savedCars, setSavedCars] = useState([]);
-    const [activeTab, setActiveTab] = useState("my-cars");
+    const [activeTab, setActiveTab] = useState("profile");
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -16,8 +17,9 @@ export const Account = () => {
             const saved = await CarsService.GetSavedCars();
             setCars(result.$values[0].cars.$values);
             setSavedCars(saved.$values[0].cars.$values);
-            //const user = await CarsService.GetUser();
-            //setUser(user);
+            const user = await UserService.GetUser();
+            setUser(user);
+            console.log(user.userName);
         }
 
         fetchData();
@@ -51,8 +53,8 @@ export const Account = () => {
                         <h2>Profile</h2>
 
                             <div>
-                                <p>Name: ViktoriyaV</p>
-                                <p>Email: jivkovaviktoria@gmail.com</p>
+                                <p>Name: {user.userName}</p>
+                                <p>Email: {user.email}</p>
                             </div>
 
                     </div>

@@ -59,6 +59,16 @@ public class UserController : ControllerBase
         return this.Ok();
     }
 
+    [HttpGet]
+    [Route("/User")]
+    public async Task<IActionResult> User()
+    {
+        var user = await this.GetUser();
+        
+        if (user is null) return this.NotFound();
+        return this.Ok(user);
+    }
+
     private async Task<User> GetUser()
     {
         var claims = HttpContext.User;
