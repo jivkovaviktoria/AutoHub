@@ -38,3 +38,8 @@ export const GetSavedCars = async () => {
     const response = await axios.get(`${baseUrl}/GetFavourite`, config);
     return response.data;
 }
+
+export const OrderCars = async (order) => {
+    const response = await axios.get(`${baseUrl}/OrderCars`, {params: order, headers: {"Content-Type": "application/json"}});
+    return response.data;
+}

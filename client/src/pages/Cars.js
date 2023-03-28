@@ -7,8 +7,8 @@
     export const Cars = () => {
         const [cars, setCars] = useState([]);
         const [selectedCar, setSelectedCar] = useState(null);
-        const [property, setProperty] = useState(null);
-        const [direction, setDirection] = useState("asc");
+        const [property, setProperty] = useState('brand');
+        const [direction, setDirection] = useState('asc');
 
         useEffect(() => {
             const token = sessionStorage.getItem('token');
@@ -28,9 +28,10 @@
         };
 
         const orderHandler = () => {
+            const order = {Property: property, IsAscending: direction === 'asc'};
             carsService
-                .OrderBy(property, direction)
-                .then((orderedCars) => setCars(orderedCars));
+                .OrderCars(order)
+                .then((orderedCars) => { setCars((prevCars) => {return orderedCars.$values})});
         };
 
         const selectCarHandler = (carId) => {

@@ -1,4 +1,5 @@
-﻿using AutoHub.API.Extensions;
+﻿using System.Reflection;
+using AutoHub.API.Extensions;
 using AutoHub.Core.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AutoHub.API.Controllers;
 
@@ -43,6 +45,22 @@ public class CarsController : ControllerBase
 
         var result = cars.Data.Select(x => this.ToViewModel(x));
         return this.Ok(result);
+    }
+    
+    [HttpGet]
+    [Route("/OrderCars")]
+    public async Task<IActionResult> OrderCars([FromQuery]OrderDefinition order)
+    {
+        var result = await this._carService.GetManyAsync();
+        var cars = result.Data;
+
+        var prop = typeof(Car).GetProperty(order.Property,
+            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+        if (order.IsAscending) cars = cars.OrderBy(x => prop.GetValue(x, null)).ToList();
+        else cars = cars.OrderByDescending(x => prop.GetValue(x, null)).ToList();
+
+        return this.Ok(cars);
     }
 
     [HttpGet, Authorize]
