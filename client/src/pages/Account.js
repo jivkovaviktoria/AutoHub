@@ -8,7 +8,7 @@ export const Account = () => {
     const [cars, setCars] = useState([]);
     const [savedCars, setSavedCars] = useState([]);
     const [activeTab, setActiveTab] = useState("profile");
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState([]);
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -19,9 +19,7 @@ export const Account = () => {
             setSavedCars(saved.$values[0].cars.$values);
             const user = await UserService.GetUser();
             setUser(user);
-            console.log(user.userName);
         }
-
         fetchData();
     }, []);
 
@@ -89,4 +87,6 @@ export const Account = () => {
             {renderTabContent()}
         </div>
     );
-};
+
+}
+
