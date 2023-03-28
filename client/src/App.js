@@ -7,8 +7,19 @@ import {Home} from "./pages/Home";
 import {Add} from "./pages/Add";
 import {Account} from "./pages/Account";
 import {Auth} from "./components/auth/Auth";
+import {useEffect} from "react";
 
 function App() {
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                sessionStorage.removeItem('token');
+            }
+        }
+    })
+
   return (
       <div className="App">
           {sessionStorage.getItem('token') ? (
