@@ -1,4 +1,5 @@
-﻿using AutoHub.Core.Contracts;
+﻿using AutoHub.API.Extensions;
+using AutoHub.Core.Contracts;
 using AutoHub.Data;
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
@@ -47,14 +48,17 @@ public class UserController : ControllerBase
     [Route("/AddToFavourite")]
     public async Task<IActionResult> AddToFavourite(Guid carId)
     {
-        var car = await this._carService.GetAsync(carId);
-        if (car is null || !car.IsSuccessful) return this.NotFound();
+        var result = await this._carService.GetAsync(carId);
+        if (!result.IsSuccessful) return this.Error(result);
 
-        var result = car.Data;
+        var car = result.Data;
+        if (car is null) return this.NotFound(car);
         
         var user = await this.GetUser();
-        user.FavouriteCars.Add(car.Data);
-        result.UsersFavourite.Add(user);
+
+        user.FavouriteCars.Add(car);
+        car.UsersFavourite.Add(user);
+        
         await this._context.SaveChangesAsync();
         return this.Ok();
     }

@@ -6,9 +6,7 @@ export const Card = (props) => {
     const [isSaved, setISaved] = useState(false);
 
     const saveHandler = () => {
-        if(!isSaved){
-            props.onSaveClick(props.car.id);
-        }
+        if(!isSaved) props.onSaveClick(props.car.id);
         setISaved(!isSaved);
     }
 

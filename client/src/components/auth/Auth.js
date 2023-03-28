@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Auth.module.css";
 import {useNavigate} from "react-router-dom";
+import * as UserService from '../../services/UserService';
 
 export const Auth = () => {
     const navigate = useNavigate();
@@ -16,15 +17,8 @@ export const Auth = () => {
                 password,
             };
 
-            const response = await fetch("https://localhost:7299/Auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(loginRequest),
-            });
+            const data = await UserService.SignIn(loginRequest);
 
-            const data = await response.json();
             sessionStorage.setItem('token', data.token);
             navigate('/');
             window.location.reload();
@@ -39,18 +33,7 @@ export const Auth = () => {
                 username,
             };
 
-            const response = await fetch("https://localhost:7299/Auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(registerRequest),
-            });
-
-            const data = await response.json();
-            sessionStorage.setItem('token', data.token);
-            navigate('/');
-            window.location.reload();
+            const data = await UserService.SignUp(registerRequest);
         }
     };
 
@@ -84,11 +67,7 @@ export const Auth = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button
-                        type="button"
-                        className={styles["Auth-button"]}
-                        onClick={isSignIn ? handleSignIn : handleSignUp}
-                    >
+                    <button type="button" className={styles["Auth-button"]} onClick={isSignIn ? handleSignIn : handleSignUp}>
                         {isSignIn ? "Sign In" : "Sign Up"}
                     </button>
                 </form>
@@ -96,10 +75,7 @@ export const Auth = () => {
                     {isSignIn
                         ? "Don't have an account?"
                         : "Already have an account?"}{" "}
-                    <button
-                        className={styles["Auth-switch"]}
-                        onClick={() => setIsSignIn(!isSignIn)}
-                    >
+                    <button className={styles["Auth-switch"]} onClick={() => setIsSignIn(!isSignIn)}>
                         {isSignIn ? "Sign Up" : "Sign In"}
                     </button>
                 </p>

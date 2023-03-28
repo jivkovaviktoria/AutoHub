@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import * as CarsService from "../services/CarsService";
-import { Card } from "../components/card/Card";
 import styles from "./Account.module.css";
+import { useEffect, useState } from "react";
+
+import * as CarsService from "../services/CarsService";
 import * as UserService from "../services/UserService";
+import { Card } from "../components/card/Card";
 
 export const Account = () => {
     const [cars, setCars] = useState([]);
@@ -15,8 +16,10 @@ export const Account = () => {
         async function fetchData() {
             const result = await CarsService.GetCarsByUser();
             const saved = await CarsService.GetSavedCars();
+
             setCars(result.$values[0].cars.$values);
             setSavedCars(saved.$values[0].cars.$values);
+
             const user = await UserService.GetUser();
             setUser(user);
         }
@@ -32,29 +35,23 @@ export const Account = () => {
             case "my-cars":
                 return (
                     <div className={styles["cars-wrapper"]}>
-                        {cars.map((car) => (
-                            <Card key={car.id} car={car} />
-                        ))}
+                        {cars.map((car) => (<Card key={car.id} car={car} />))}
                     </div>
                 );
             case "saved-cars":
                 return (
                     <div className={styles["cars-wrapper"]}>
-                        {savedCars.map((car) => (
-                            <Card key={car.id} car={car} />
-                        ))}
+                        {savedCars.map((car) => (<Card key={car.id} car={car} />))}
                     </div>
                 );
             case "profile":
                 return (
                     <div>
                         <h2>Profile</h2>
-
                             <div>
                                 <p>Name: {user.userName}</p>
                                 <p>Email: {user.email}</p>
                             </div>
-
                     </div>
                 );
             default:

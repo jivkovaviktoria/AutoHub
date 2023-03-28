@@ -30,10 +30,12 @@ public class CarsController : ControllerBase
     [Route("/Car")]
     public async Task<IActionResult> GetCar(Guid id)
     {
-        var car = await this._carService.GetAsync(id);
-
-        var result = car.Data;
-        return this.Ok(result);
+        var result = await this._carService.GetAsync(id);
+        
+        if (!result.IsSuccessful) return this.Error(result);
+            
+        var car = result.Data;
+        return this.Ok(car);
     }
 
     [HttpGet, Authorize]
@@ -41,6 +43,7 @@ public class CarsController : ControllerBase
     public async Task<IActionResult> GetAllCars()
     {
         var cars = await this._carService.GetManyAsync();
+        
         if (!cars.IsSuccessful) return this.Error(cars);
 
         var result = cars.Data.Select(x => this.ToViewModel(x));
@@ -52,6 +55,9 @@ public class CarsController : ControllerBase
     public async Task<IActionResult> OrderCars([FromQuery]OrderDefinition order)
     {
         var result = await this._carService.GetManyAsync();
+
+        if (!result.IsSuccessful) return this.Error(result);
+        
         var cars = result.Data;
 
         var prop = typeof(Car).GetProperty(order.Property,

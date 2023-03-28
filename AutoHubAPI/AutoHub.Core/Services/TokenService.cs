@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AutoHub.Data.Services;
+namespace AutoHub.Core.Services;
 
 public class TokenService
 {

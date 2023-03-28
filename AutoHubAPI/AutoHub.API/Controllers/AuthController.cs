@@ -1,7 +1,7 @@
-﻿using AutoHub.Data;
+﻿using AutoHub.Core.Services;
+using AutoHub.Data;
 using AutoHub.Data.IdentityModels;
 using AutoHub.Data.Models;
-using AutoHub.Data.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

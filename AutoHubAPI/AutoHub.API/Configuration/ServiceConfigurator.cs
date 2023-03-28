@@ -5,7 +5,6 @@ using AutoHub.Data;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.Profiles;
-using AutoHub.Data.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

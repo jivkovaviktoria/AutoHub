@@ -46,6 +46,7 @@
         const closeInfoHandler = () => {
             setSelectedCar(null);
         }
+
         return (
             <>
             {sessionStorage.getItem('token') ? (
