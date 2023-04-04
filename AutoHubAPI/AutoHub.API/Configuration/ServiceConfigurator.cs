@@ -5,6 +5,7 @@ using AutoHub.Data;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.Profiles;
+using AutoHub.Data.Repositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -89,9 +90,11 @@ public static class ServiceConfigurator
     public static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<TokenService, TokenService>();
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); 
-        services.AddScoped(typeof(IService<>), typeof(Service<>));
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped(typeof(ICloudinaryRepository), typeof(CloudinaryRepository));
         
+        services.AddScoped(typeof(IService<>), typeof(Service<>));
+
         var mapperConfig = new MapperConfiguration(mc => {
             mc.AddProfile(new CarProfile());
         });
