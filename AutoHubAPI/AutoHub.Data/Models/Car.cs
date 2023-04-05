@@ -7,6 +7,7 @@ public class Car : BaseEntity
     public decimal Price { get; set; }
     public int Year { get; set; }
     public string ImageUrl { get; set; } = null!;
+    public virtual ICollection<Image> Images { get; set; } = new List<Image>();
     public string Description { get; set; } = null!;
 
     public bool IsSold { get; set; }

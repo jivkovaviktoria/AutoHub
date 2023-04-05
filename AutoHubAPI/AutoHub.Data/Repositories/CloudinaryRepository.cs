@@ -29,9 +29,6 @@ public class CloudinaryRepository : ICloudinaryRepository
 
         var uploadResult = await client.UploadAsync(uploadParams);
 
-        if (uploadResult is not null && uploadResult.StatusCode == System.Net.HttpStatusCode.OK)
-            return uploadResult.SecureUrl.ToString();
-
-        return null;
+        return uploadResult.SecureUrl.ToString();
     }
 }

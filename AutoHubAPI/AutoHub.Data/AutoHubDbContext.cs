@@ -10,6 +10,7 @@ public class AutoHubDbContext : IdentityUserContext<User>
     { }
 
     public DbSet<Car> Cars { get; set; }
+    public DbSet<Image> Images { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +27,8 @@ public class AutoHubDbContext : IdentityUserContext<User>
 
         modelBuilder.Entity<Car>().HasMany(c => c.UsersFavourite)
             .WithMany(u => u.FavouriteCars);
+
+        modelBuilder.Entity<Image>().HasOne(i => i.Car).WithMany(c => c.Images).HasForeignKey(i => i.CarId);
 
         base.OnModelCreating(modelBuilder);
     }

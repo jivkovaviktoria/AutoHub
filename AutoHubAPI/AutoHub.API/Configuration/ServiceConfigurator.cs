@@ -92,7 +92,7 @@ public static class ServiceConfigurator
         services.AddScoped<TokenService, TokenService>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(ICloudinaryRepository), typeof(CloudinaryRepository));
-        
+        services.AddScoped(typeof(ImageService), typeof(ImageService));
         services.AddScoped(typeof(IService<>), typeof(Service<>));
 
         var mapperConfig = new MapperConfiguration(mc => {

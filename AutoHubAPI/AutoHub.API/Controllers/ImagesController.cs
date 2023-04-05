@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AutoHub.Core.Services;
 using AutoHub.Data.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,12 @@ namespace AutoHub.API.Controllers;
 public class ImagesController : ControllerBase
 {
     private readonly ICloudinaryRepository _cloudinaryRepository;
+    private readonly ImageService _imageService;
 
-    public ImagesController(ICloudinaryRepository cloudinaryRepository)
+    public ImagesController(ICloudinaryRepository cloudinaryRepository, ImageService imageService)
     {
         this._cloudinaryRepository = cloudinaryRepository ?? throw new ArgumentNullException(nameof(cloudinaryRepository));
+        this._imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
     }
 
     [HttpPost]
@@ -24,5 +27,14 @@ public class ImagesController : ControllerBase
             return this.Problem("Something went wrong!", null, (int)HttpStatusCode.InternalServerError);
 
         return new JsonResult(new { Link = imageUrl });
+    }
+
+    [HttpPost]
+    [Route("/UploadMany")]
+    public async Task<IActionResult> UploadManyAsync(List<IFormFile> files, Guid carId)
+    {
+        var images = await this._imageService.AddRange(files, carId);
+        if (images is not null) return this.Ok();
+        return this.BadRequest();
     }
 }
