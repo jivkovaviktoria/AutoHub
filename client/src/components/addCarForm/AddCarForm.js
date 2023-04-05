@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import {useRef, useState} from 'react';
 import styles from './AddCarForm.module.css';
 import * as CarsService from "../../services/CarsService";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as ImagesService from "../../services/ImagesService";
 
 export const AddCarForm = ({onCarAdd}) => {
     const modelInputRef = useRef(null);
@@ -11,22 +12,36 @@ export const AddCarForm = ({onCarAdd}) => {
     const yearInputRef = useRef(null);
     const priceInputRef = useRef(null);
     const descriptionInputRef = useRef(null);
-    const imageInputRef = useRef(null);
 
-    const carAddHandler = (e) => {
+    const [file, setFile] = useState(null);
+
+    const handleFileSelection = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+    };
+
+    const carAddHandler = async (e) => {
         e.preventDefault();
 
         const data = new FormData(e.target);
-        const carData = Object.fromEntries(data);
 
-        CarsService.Add(carData);
+        const fileData = await ImagesService.UploadImage(file);
+        const carData = {
+            model: modelInputRef.current.value,
+            brand: brandInputRef.current.value,
+            year: yearInputRef.current.value,
+            price: priceInputRef.current.value,
+            description: descriptionInputRef.current.value,
+            imageUrl: fileData.data.link,
+        };
+
+        await CarsService.Add(carData);
 
         modelInputRef.current.value = '';
         brandInputRef.current.value = '';
         yearInputRef.current.value = '';
         priceInputRef.current.value = '';
         descriptionInputRef.current.value = '';
-        imageInputRef.current.value = '';
     }
 
     const notify = () => toast.success("Added successfully!");
@@ -56,8 +71,7 @@ export const AddCarForm = ({onCarAdd}) => {
                     <input type="text" name="description" ref={descriptionInputRef}/>
                 </label>
                 <label>
-                    Image:
-                    <input type="text" name="imageUrl" ref={imageInputRef}/>
+                    <input type="file" name="url" onChange={handleFileSelection}/>
                 </label>
                 <button type="submit" onClick={notify}>Add</button>
                 <ToastContainer theme='dark' autoClose={3000} limit={3} typ/>
