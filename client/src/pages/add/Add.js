@@ -1,4 +1,4 @@
-import {AddCarForm} from "../components/addCarForm/AddCarForm";
+import {AddCarForm} from "../../components/addCarForm/AddCarForm";
 import styles from './Add.module.css';
 
 export const Add = () => {

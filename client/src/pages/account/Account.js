@@ -1,9 +1,9 @@
 import styles from "./Account.module.css";
 import { useEffect, useState } from "react";
 
-import * as CarsService from "../services/CarsService";
-import * as UserService from "../services/UserService";
-import { Card } from "../components/card/Card";
+import * as CarsService from "../../services/CarService";
+import * as UserService from "../../services/UserService";
+import { Card } from "../../components/card/Card";
 
 export const Account = () => {
     const [cars, setCars] = useState([]);

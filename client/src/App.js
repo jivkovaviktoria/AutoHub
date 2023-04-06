@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import {useEffect} from "react";
 
 import {NavigationBar, Auth} from "./components";
-import {Cars, Home, Add, Account} from "./pages";
+import {Cars, Home, Add, Account} from "./pages/index";
 
 function App() {
     useEffect(() => {
@@ -21,10 +21,10 @@ function App() {
               <NavigationBar/>
               <Routes>
                   <Route path='/' element={<Home/>}/>
-                  <Route path='/cars' element={<Cars/>}/>
-                  <Route path='/add' element={<Add/>}/>
-                  <Route path='/account' element={<Account/>}/>
-                  <Route path='/auth' element={<Auth/>}/>
+                  <Route path='cars/Cars' element={<Cars/>}/>
+                  <Route path='add/Add' element={<Add/>}/>
+                  <Route path='account/Account' element={<Account/>}/>
+                  <Route path='auth/Auth' element={<Auth/>}/>
               </Routes>
               </>
           ) : (

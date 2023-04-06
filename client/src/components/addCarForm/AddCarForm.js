@@ -1,10 +1,10 @@
 import {useRef, useState} from 'react';
 import styles from './AddCarForm.module.css';
-import * as CarsService from "../../services/CarsService";
+import * as CarsService from "../../services/CarService";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as ImagesService from "../../services/ImagesService";
+import * as ImagesService from "../../services/ImageService";
 
 export const AddCarForm = ({onCarAdd}) => {
     const modelInputRef = useRef(null);
