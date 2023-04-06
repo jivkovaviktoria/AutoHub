@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using AutoHub.Core.Services;
-using AutoHub.Data.Contracts;
+using AutoHub.Data.Contracts.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoHub.API.Controllers;

@@ -9,4 +9,5 @@ public interface IRepository<TEntity>
     Task<OperationResult<TEntity>> GetAsync(Guid id);
     Task<OperationResult<IEnumerable<TEntity>>> GetManyAsync();
     Task<OperationResult> CreateAsync(TEntity entity);
+    Task<OperationResult> DeleteAsync(TEntity entity);
 }

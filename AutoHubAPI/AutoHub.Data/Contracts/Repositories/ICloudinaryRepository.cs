@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace AutoHub.Data.Contracts;
+namespace AutoHub.Data.Contracts.Repositories;
 
 public interface ICloudinaryRepository
 {

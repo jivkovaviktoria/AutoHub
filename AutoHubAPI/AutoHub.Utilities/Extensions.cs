@@ -29,22 +29,4 @@ public static class Extensions
         operationResult.Data = data;
         return operationResult;
     }
-
-    public static IQueryable<TEntity> Filter<TEntity>(this IQueryable<TEntity> collection,
-        IEnumerable<Expression<Func<TEntity, bool>>> filters)
-    {
-        if (collection is null) throw new ArgumentNullException(nameof(collection));
-        if (filters is null) return collection;
-        
-        foreach (var filter in filters)
-            collection = collection.Where(filter);
-
-        return collection;
-    }
-    
-    public static IEnumerable<T> ConcatenateWith<T>(this IEnumerable<T> a, T b)
-    {
-        foreach (var element in a) yield return element;
-        yield return b;
-    }
 }

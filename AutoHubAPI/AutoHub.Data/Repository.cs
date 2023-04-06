@@ -83,4 +83,22 @@ public class Repository<TEntity> : IRepository<TEntity>
 
         return operationResult;
     }
+
+    public async Task<OperationResult> DeleteAsync(TEntity entity)
+    {
+        var operationResult = new OperationResult();
+        if (entity is null) return operationResult;
+
+        try
+        {
+            this._context.Remove(entity);
+            await this._context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            operationResult.AddException(e);
+        }
+
+        return operationResult;
+    }
 }

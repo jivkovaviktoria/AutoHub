@@ -1,4 +1,4 @@
-﻿using AutoHub.Data.Contracts;
+﻿using AutoHub.Data.Contracts.Repositories;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;

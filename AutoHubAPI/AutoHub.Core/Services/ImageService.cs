@@ -1,4 +1,5 @@
 ﻿using AutoHub.Data.Contracts;
+using AutoHub.Data.Contracts.Repositories;
 using AutoHub.Data.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -7,13 +8,11 @@ namespace AutoHub.Core.Services;
 public class ImageService : Service<Image>
 {
     private readonly ICloudinaryRepository _cloudinaryRepository;
-    private readonly IRepository<Car> _carRepository;
     private readonly IRepository<Image> _imageRepository;
 
-    public ImageService(ICloudinaryRepository cloudinaryRepository, IRepository<Image> imagesRepository, IRepository<Car> carRepository) : base(imagesRepository)
+    public ImageService(ICloudinaryRepository cloudinaryRepository, IRepository<Image> imagesRepository) : base(imagesRepository)
     {
         this._cloudinaryRepository = cloudinaryRepository ?? throw new ArgumentNullException(nameof(cloudinaryRepository));
-        this._carRepository = carRepository ?? throw new ArgumentNullException(nameof(carRepository));
         this._imageRepository = imagesRepository ?? throw new ArgumentNullException(nameof(imagesRepository));
     }
 

@@ -58,4 +58,13 @@ public class Service<TEntity> : IService<TEntity>
         if (!result.IsSuccessful) return operationResult.AppendErrors(result);
         return operationResult.WithData(entity);
     }
+
+    public async Task<OperationResult<TEntity>> DeleteAsync(TEntity entity)
+    {
+        var operationResult = new OperationResult<TEntity>();
+
+        var result = await this._repository.DeleteAsync(entity);
+        if (!result.IsSuccessful) return operationResult.AppendErrors(result);
+        return operationResult.WithData(entity);
+    }
 }

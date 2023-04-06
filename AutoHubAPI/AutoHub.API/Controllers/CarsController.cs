@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AutoHub.API.Extensions;
 using AutoHub.Core.Contracts;
+using AutoHub.Core.FilterDefinitions;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
@@ -17,15 +18,17 @@ public class CarsController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly IService<Car> _carService;
+    private readonly IFilteringService<Car> _filteringService;
     private readonly IRepository<Image> _imageRepository;
     private readonly IMapper _mapper;
 
-    public CarsController(UserManager<User> userManager, IService<Car> carService, IRepository<Image> imageRepository, IMapper mapper)
+    public CarsController(UserManager<User> userManager, IService<Car> carService, IRepository<Image> imageRepository, IMapper mapper, IFilteringService<Car> filteringService)
     {
         this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         this._imageRepository = imageRepository ?? throw new ArgumentNullException(nameof(imageRepository));
         this._carService = carService ?? throw new ArgumentNullException(nameof(carService));
+        this._filteringService = filteringService ?? throw new ArgumentNullException(nameof(filteringService));
     }
 
     [HttpGet, Authorize]
@@ -56,19 +59,10 @@ public class CarsController : ControllerBase
     [Route("/OrderCars")]
     public async Task<IActionResult> OrderCars([FromQuery]OrderDefinition order)
     {
-        var result = await this._carService.GetManyAsync();
-
+        var result = await this._filteringService.OrderBy(order);
         if (!result.IsSuccessful) return this.Error(result);
         
-        var cars = result.Data;
-
-        var prop = typeof(Car).GetProperty(order.Property,
-            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-        if (order.IsAscending) cars = cars.OrderBy(x => prop.GetValue(x, null)).ToList();
-        else cars = cars.OrderByDescending(x => prop.GetValue(x, null)).ToList();
-
-        return this.Ok(cars);
+        return this.Ok(result.Data);
     }
 
     [HttpGet, Authorize]
@@ -107,6 +101,21 @@ public class CarsController : ControllerBase
         
         return CreatedAtAction(nameof(GetCar), new {id = car.Id}, car);
     }
+
+    [HttpDelete, Authorize]
+    [Route("/Delete")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await this._carService.GetAsync(id);
+        if (!result.IsSuccessful) return this.Error(result);
+
+        var car = result.Data;
+        if (car is null) return this.NotFound();
+
+        await this._carService.DeleteAsync(car);
+        return this.Ok();
+    }    
+    
     private object ToViewModel(Car car) => this._mapper.Map<CarInfoViewModel>(car);
 
     private Car ToDatabaseModel(CarInfoViewModel viewModel)

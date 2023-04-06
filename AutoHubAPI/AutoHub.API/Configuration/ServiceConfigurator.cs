@@ -3,6 +3,7 @@ using AutoHub.Core.Contracts;
 using AutoHub.Core.Services;
 using AutoHub.Data;
 using AutoHub.Data.Contracts;
+using AutoHub.Data.Contracts.Repositories;
 using AutoHub.Data.Models;
 using AutoHub.Data.Profiles;
 using AutoHub.Data.Repositories;
@@ -93,6 +94,7 @@ public static class ServiceConfigurator
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(ICloudinaryRepository), typeof(CloudinaryRepository));
         services.AddScoped(typeof(ImageService), typeof(ImageService));
+        services.AddScoped(typeof(IFilteringService<>), typeof(FilteringService<>));
         services.AddScoped(typeof(IService<>), typeof(Service<>));
 
         var mapperConfig = new MapperConfiguration(mc => {
