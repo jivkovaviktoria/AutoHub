@@ -9,4 +9,6 @@ public class CarInfoViewModel
     public int Year { get; set; }
     public string ImageUrl { get; set; } = null!;
     public string Description { get; set; } = null!;
+
+    public List<string> Images { get; set; }
 }

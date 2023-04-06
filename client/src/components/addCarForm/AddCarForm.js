@@ -16,7 +16,9 @@ export const AddCarForm = ({onCarAdd}) => {
     const [file, setFile] = useState(null);
 
     const handleFileSelection = (e) => {
-        const selectedFile = e.target.files[0];
+        e.preventDefault();
+        
+        const selectedFile = e.target.files;
         setFile(selectedFile);
     };
 
@@ -25,14 +27,17 @@ export const AddCarForm = ({onCarAdd}) => {
 
         const data = new FormData(e.target);
 
-        const fileData = await ImagesService.UploadImage(file);
+        const fileData = await ImagesService.UploadManyImages(file);
+        console.log(fileData.data.$values);
+
         const carData = {
             model: modelInputRef.current.value,
             brand: brandInputRef.current.value,
             year: yearInputRef.current.value,
             price: priceInputRef.current.value,
             description: descriptionInputRef.current.value,
-            imageUrl: fileData.data.link,
+            imageUrl: fileData.data.$values[0],
+            images: fileData.data.$values
         };
 
         await CarsService.Add(carData);
@@ -71,7 +76,8 @@ export const AddCarForm = ({onCarAdd}) => {
                     <input type="text" name="description" ref={descriptionInputRef}/>
                 </label>
                 <label>
-                    <input type="file" name="url" onChange={handleFileSelection}/>
+                    Images:
+                    <input type="file" name="images" multiple onChange={handleFileSelection}/>
                 </label>
                 <button type="submit" onClick={notify}>Add</button>
                 <ToastContainer theme='dark' autoClose={3000} limit={3} typ/>

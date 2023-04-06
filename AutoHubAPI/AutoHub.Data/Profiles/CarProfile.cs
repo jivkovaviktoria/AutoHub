@@ -9,6 +9,6 @@ public class CarProfile : Profile
     public CarProfile()
     {
         CreateMap<Car, CarInfoViewModel>();
-        CreateMap<CarInfoViewModel, Car>();
+        CreateMap<CarInfoViewModel, Car>().ForMember(c => c.Images, opt => opt.Ignore());
     }
 }

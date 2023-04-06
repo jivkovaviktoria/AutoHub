@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AutoHub.API.Extensions;
 using AutoHub.Core.Contracts;
+using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.ViewModels;
 using AutoMapper;
@@ -16,12 +17,14 @@ public class CarsController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly IService<Car> _carService;
+    private readonly IRepository<Image> _imageRepository;
     private readonly IMapper _mapper;
 
-    public CarsController(UserManager<User> userManager, IService<Car> carService, IMapper mapper)
+    public CarsController(UserManager<User> userManager, IService<Car> carService, IRepository<Image> imageRepository, IMapper mapper)
     {
         this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        this._imageRepository = imageRepository ?? throw new ArgumentNullException(nameof(imageRepository));
         this._carService = carService ?? throw new ArgumentNullException(nameof(carService));
     }
 
@@ -88,7 +91,17 @@ public class CarsController : ControllerBase
     {
         var dbModel = this.ToDatabaseModel(entity);
         var car = await this.SetUserAsync(dbModel);
-
+        
+        List<Image> images = new();
+        foreach (var link in entity.Images)
+        {
+            var image = new Image() { Id = Guid.NewGuid(), Url = link, CarId = car.Id };
+            await this._imageRepository.CreateAsync(image);
+            images.Add(image);
+        }
+        
+        car.Images = images;
+        
         var result = await this._carService.CreateAsync(car);
         if (!result.IsSuccessful) return this.Error(result);
         

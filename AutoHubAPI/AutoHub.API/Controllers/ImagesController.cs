@@ -31,10 +31,10 @@ public class ImagesController : ControllerBase
 
     [HttpPost]
     [Route("/UploadMany")]
-    public async Task<IActionResult> UploadManyAsync(List<IFormFile> files, Guid carId)
+    public async Task<IActionResult> UploadManyAsync(List<IFormFile> files)
     {
-        var images = await this._imageService.AddRange(files, carId);
-        if (images is not null) return this.Ok();
+        var images = await this._imageService.AddRange(files);
+        if (images is not null) return this.Ok(images);
         return this.BadRequest();
     }
 }
