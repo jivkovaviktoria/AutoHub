@@ -1,7 +1,6 @@
 ﻿using AutoHub.Core.Contracts;
 using AutoHub.Core.FilterDefinitions;
 using AutoHub.Core.Services;
-using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Tests.Randomizers;
 using AutoHub.Utilities;
@@ -11,24 +10,6 @@ namespace AutoHub.Tests.Services;
 
 public class FilteringServiceTests
 {
-    /*[Fact]
-    public async void GetByWithValidIdReturnsEntity()
-    {
-        var carRandomizer = new CarRandomizer();
-        var expectedEntity = carRandomizer.PrepareRandomValue();
-
-        var mockRepository = new Mock<IRepository<Car>>();
-        mockRepository.Setup(r => r.GetAsync(expectedEntity.Id))
-            .ReturnsAsync(new OperationResult<Car>(){Data = expectedEntity});
-
-        var service = new Service<Car>(mockRepository.Object);
-
-        var result = await service.GetAsync(expectedEntity.Id);
-        
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(expectedEntity, result.Data);
-    }*/
-
     [Fact]
     public async void OrderByShouldReturnCorrectlyOrderedCollectionAscending()
     {

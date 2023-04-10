@@ -1,4 +1,16 @@
+div{
+    position: relative;
+}
 .image{
     width: 100%;
     height: 100vh;
+}
+.inscription {
+    position: absolute;
+    top: 10%;
+    left: 6%;
+    font-size: 38px;
+    font-family: "Arial Black";
+    font-style: italic;
+    color: white;
 }

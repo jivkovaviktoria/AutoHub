@@ -30,6 +30,8 @@ public class FilteringService<TEntity> : IFilteringService<TEntity>
             BindingFlags.Public |
             BindingFlags.Instance);
 
+       
+        
         if (orderDefinition.IsAscending) entities = entities.OrderBy(x => prop.GetValue(x, null)).ToList();
         else entities = entities.OrderByDescending(x => prop.GetValue(x, null)).ToList();
 
