@@ -80,7 +80,7 @@
                     </label>
                     <button onClick={orderHandler}>Order</button>
                 </div>
-                <Filter onFilter={setCarsHandler}/>
+                <Filter onFilter={setCarsHandler} />
                 <div className={styles["cars-wrapper"]}>
                     {isLoading ? (
                         <div className={styles.loading}>

@@ -4,14 +4,14 @@ import {PriceFilter} from "../../filters/priceFilter/PriceFilter";
 export const Filter = ({onFilter}) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const priceHandler = () => {
-        setIsOpen(true);
+    const closeHandler = () => {
+        setIsOpen(false);
     }
 
     return (
-        <div>
-            <button onClick={priceHandler}>Price</button>
-            {isOpen && <PriceFilter onFilter={onFilter}/>}
-        </div>
+        <>
+            <button onClick={() => setIsOpen(true)}>Price</button>
+            {isOpen && <PriceFilter onFilter={onFilter} onClose={closeHandler}/>}
+        </>
     );
 }
