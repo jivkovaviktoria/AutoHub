@@ -8,4 +8,5 @@ public interface IFilteringService<TEntity>
     where TEntity : class, IEntity
 {
     Task<OperationResult<IEnumerable<TEntity>>> OrderBy(OrderDefinition orderDefinition);
+    Task<OperationResult<IEnumerable<TEntity>>> FilterByPrice(PriceFilterDefinition filterDefinition);
 }

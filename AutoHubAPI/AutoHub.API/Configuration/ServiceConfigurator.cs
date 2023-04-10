@@ -94,7 +94,7 @@ public static class ServiceConfigurator
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(ICloudinaryRepository), typeof(CloudinaryRepository));
         services.AddScoped(typeof(ImageService), typeof(ImageService));
-        services.AddScoped(typeof(IFilteringService<>), typeof(FilteringService<>));
+        services.AddScoped(typeof(IFilteringService<Car>), typeof(FilteringService));
         services.AddScoped(typeof(IService<>), typeof(Service<>));
 
         var mapperConfig = new MapperConfiguration(mc => {

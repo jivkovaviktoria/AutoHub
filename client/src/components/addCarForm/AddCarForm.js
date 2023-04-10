@@ -28,7 +28,6 @@ export const AddCarForm = ({onCarAdd}) => {
         const data = new FormData(e.target);
 
         const fileData = await ImagesService.UploadManyImages(file);
-        console.log(fileData.data.$values);
 
         const carData = {
             model: modelInputRef.current.value,

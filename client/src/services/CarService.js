@@ -43,3 +43,8 @@ export const OrderCars = async (order) => {
     const response = await axios.get(`${baseUrl}/OrderCars`, {params: order, headers: {"Content-Type": "application/json"}});
     return response.data;
 }
+
+export const FilterByPrice = async (filter) => {
+    const response = await axios.get(`${baseUrl}/FilterByPrice`, {params: filter, headers: {"Content-Type": "application/json"}});
+    return response.data;
+}

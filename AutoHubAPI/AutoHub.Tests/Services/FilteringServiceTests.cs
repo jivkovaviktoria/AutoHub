@@ -26,7 +26,7 @@ public class FilteringServiceTests
         mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
-        var filteringService = new FilteringService<Car>(mockService.Object);
+        var filteringService = new FilteringService(mockService.Object);
 
         var result = await filteringService.OrderBy(orderDefinition);
         
@@ -50,9 +50,32 @@ public class FilteringServiceTests
         mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
-        var filteringService = new FilteringService<Car>(mockService.Object);
+        var filteringService = new FilteringService(mockService.Object);
 
         var result = await filteringService.OrderBy(orderDefinition);
+        
+        Assert.True(result.IsSuccessful);
+        Assert.Equal(expected, result.Data);
+    }
+
+    [Fact]
+    public async void FilterByPriceShouldReturnsFilteredCollection()
+    {
+        var filterDefinition = new PriceFilterDefinition() { Min = 2000, Max = 10000 };
+        List<Car> cars = new();
+
+        var carRandomizer = new CarRandomizer();
+        for(int i = 0; i < 5; i++) cars.Add(carRandomizer.PrepareRandomValue());
+
+        var expected = cars.Where(x => x.Price >= filterDefinition.Min && x.Price <= filterDefinition.Max);
+
+        var mockService = new Mock<IService<Car>>();
+        mockService.Setup(s => s.GetManyAsync())
+            .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
+
+        var filteringService = new FilteringService(mockService.Object);
+
+        var result = await filteringService.FilterByPrice(filterDefinition);
         
         Assert.True(result.IsSuccessful);
         Assert.Equal(expected, result.Data);

@@ -65,6 +65,16 @@ public class CarsController : ControllerBase
         return this.Ok(result.Data);
     }
 
+    [HttpGet]
+    [Route("/FilterByPrice")]
+    public async Task<IActionResult> FilterByPrice([FromQuery]PriceFilterDefinition filterDefinition)
+    {
+        var result = await this._filteringService.FilterByPrice(filterDefinition);
+        if (!result.IsSuccessful) return this.Error(result);
+
+        return this.Ok(result.Data);
+    }
+
     [HttpGet, Authorize]
     [Route("GetCarsByUser")]
     public async Task<IActionResult> GetCarsByUser()

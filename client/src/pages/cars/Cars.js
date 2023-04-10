@@ -1,4 +1,4 @@
-    import { useEffect, useState } from "react";
+    import { useEffect, useState, useRef } from "react";
     import * as carsService from "../../services/CarService";
     import styles from "./Cars.module.css";
     import 'react-loading/dist/react-loading';
@@ -7,6 +7,9 @@
     import Loading from "react-loading";
 
     export const Cars = () => {
+        const minPriceInputRef = useRef(null);
+        const maxPriceInputRef = useRef(null);
+
         const [cars, setCars] = useState([]);
         const [selectedCar, setSelectedCar] = useState(null);
         const [property, setProperty] = useState('brand');
@@ -37,6 +40,15 @@
                 .OrderCars(order)
                 .then((orderedCars) => { setCars((prevCars) => {return orderedCars.$values})});
         };
+
+        const filterHandler = () => {
+            const filter = {Min: minPriceInputRef.current.value, Max: maxPriceInputRef.current.value};
+            carsService.FilterByPrice(filter)
+                .then((filteredCars) => {setCars((prevCars) => {return filteredCars.$values})});
+
+            minPriceInputRef.current.value = '';
+            maxPriceInputRef.current.value = '';
+        }
 
         const selectCarHandler = (carId) => {
             carsService.GetSingle(carId)
@@ -75,6 +87,14 @@
                         </select>
                     </label>
                     <button onClick={orderHandler}>Order</button>
+                </div>
+                <div className={styles['order-form']}>
+                    <label>
+                        FilterByPrice:
+                        <input type="number" name="min" ref={minPriceInputRef}/>
+                        <input type="number" name="max" ref={maxPriceInputRef}/>
+                    </label>
+                    <button onClick={() => filterHandler()}>Filter</button>
                 </div>
                 <div className={styles["cars-wrapper"]}>
                     {isLoading ? (
