@@ -45,6 +45,6 @@ export const OrderCars = async (order) => {
 }
 
 export const FilterByPrice = async (filter) => {
-    const response = await axios.get(`${baseUrl}/FilterByPrice`, {params: filter, headers: {"Content-Type": "application/json"}});
+    const response = await axios.get(`${baseUrl}/FilterByPrice?Min=${filter.Min}&Max=${filter.Max}`, config);
     return response.data;
 }

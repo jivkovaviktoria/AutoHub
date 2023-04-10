@@ -5,16 +5,14 @@
     import { Card } from "../../components/card/Card";
     import {Info} from "../info/Info";
     import Loading from "react-loading";
+    import {Filter} from "../../components/filter/Filter";
 
     export const Cars = () => {
-        const minPriceInputRef = useRef(null);
-        const maxPriceInputRef = useRef(null);
-
         const [cars, setCars] = useState([]);
         const [selectedCar, setSelectedCar] = useState(null);
         const [property, setProperty] = useState('brand');
         const [direction, setDirection] = useState('asc');
-        const[isLoading, setIsLoading] = useState(true);
+        const [isLoading, setIsLoading] = useState(true);
 
         useEffect(() => {
             const token = sessionStorage.getItem('token');
@@ -26,6 +24,9 @@
             fetchData();
         }, []);
 
+        const setCarsHandler = (filteredCars) => {
+            setCars(filteredCars.$values);
+        }
         const propertyHandler = (e) => {
             setProperty(e.target.value);
         };
@@ -40,15 +41,6 @@
                 .OrderCars(order)
                 .then((orderedCars) => { setCars((prevCars) => {return orderedCars.$values})});
         };
-
-        const filterHandler = () => {
-            const filter = {Min: minPriceInputRef.current.value, Max: maxPriceInputRef.current.value};
-            carsService.FilterByPrice(filter)
-                .then((filteredCars) => {setCars((prevCars) => {return filteredCars.$values})});
-
-            minPriceInputRef.current.value = '';
-            maxPriceInputRef.current.value = '';
-        }
 
         const selectCarHandler = (carId) => {
             carsService.GetSingle(carId)
@@ -88,14 +80,7 @@
                     </label>
                     <button onClick={orderHandler}>Order</button>
                 </div>
-                <div className={styles['order-form']}>
-                    <label>
-                        FilterByPrice:
-                        <input type="number" name="min" ref={minPriceInputRef}/>
-                        <input type="number" name="max" ref={maxPriceInputRef}/>
-                    </label>
-                    <button onClick={() => filterHandler()}>Filter</button>
-                </div>
+                <Filter onFilter={setCarsHandler}/>
                 <div className={styles["cars-wrapper"]}>
                     {isLoading ? (
                         <div className={styles.loading}>
