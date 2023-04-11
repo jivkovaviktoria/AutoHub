@@ -10,7 +10,7 @@ export const NavigationBar = () => {
 
     return (
         <header>
-            <div className={styles.logo}>AUTOhub</div>
+            <div className={styles.logo}>AUTO<span>hub</span></div>
             <div className={`${styles.hamburger}`} onClick={ClickHandler}>
                 <div className={styles.line}></div>
                 <div className={styles.line}></div>

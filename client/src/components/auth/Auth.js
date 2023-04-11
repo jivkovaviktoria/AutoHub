@@ -39,6 +39,7 @@ export const Auth = () => {
 
     return (
         <div className={styles["Auth-container"]}>
+            <h1 className={styles.logo}>AUTO<span>hub</span></h1>
             <div className={styles["Auth-card"]}>
                 <h1 className={styles["Auth-header"]}>
                     {isSignIn ? "Sign In" : "Sign Up"}

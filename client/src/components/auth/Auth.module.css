@@ -6,7 +6,18 @@
     height: 100vh;
     background-color: black;
 }
-
+.logo{
+    font-size: 38px;
+    font-family: "Arial Black";
+    font-style: italic;
+    color: white;
+}
+.logo span{
+    font-size: 38px;
+    font-family: "Arial Black";
+    font-style: italic;
+    color: red;
+}
 .Auth-card {
     display: flex;
     flex-direction: column;
