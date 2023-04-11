@@ -1,11 +1,10 @@
-    import { useEffect, useState, useRef } from "react";
+    import { useEffect, useState} from "react";
     import * as carsService from "../../services/CarService";
     import styles from "./Cars.module.css";
     import 'react-loading/dist/react-loading';
-    import { Card } from "../../components/card/Card";
-    import {Info} from "../info/Info";
+    import { Card, Filter } from '../../components';
     import Loading from "react-loading";
-    import {Filter} from "../../components/filter/Filter";
+    import {Car} from "../car/Car";
 
     export const Cars = () => {
         const [cars, setCars] = useState([]);
@@ -43,16 +42,20 @@
         };
 
         const selectCarHandler = (carId) => {
-            carsService.GetSingle(carId)
-                .then(car => setSelectedCar(car));
+            if(carId === null) setSelectedCar(null);
+            else {
+                carsService.GetSingle(carId)
+                    .then(car => {setSelectedCar(car);
+                    });
+            }
         }
 
         const saveCarHandler = (carId) => {
             carsService.SaveCar(carId).then(r => console.log(r));
         }
 
-        const closeInfoHandler = () => {
-            setSelectedCar(null);
+        if(selectedCar){
+            return <Car car={selectedCar} onSelect={() => selectCarHandler(null)}/>
         }
 
         return (
@@ -98,7 +101,6 @@
                         ))
                     )}
                 </div>
-                {selectedCar && <Info car={selectedCar} onClose={closeInfoHandler}/>}
             </div>
                     ) : (
                     <div>You are not authorized to access this page. Please login or register.</div>

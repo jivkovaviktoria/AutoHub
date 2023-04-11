@@ -1,0 +1,41 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    color: black;
+    margin: 30px 200px;
+}
+.headingContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.heading{
+    margin-bottom: 70px;
+    float: left;
+}
+.price{
+    margin-bottom: 70px;
+    float: right;
+}
+.textContainer{
+    text-align: left;
+}
+.text{
+    margin: 0;
+    color: black;
+}
+.images-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+img{
+    width: 400px;
+}
+.back-button{
+    margin-bottom: 70px;
+    width: 100px;
+    margin-left: -2px;
+    float: left;
+}

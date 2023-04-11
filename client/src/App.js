@@ -4,6 +4,7 @@ import {useEffect} from "react";
 
 import {NavigationBar, Auth} from "./components";
 import {Cars, Home, Add, Account} from "./pages/index";
+import {Car} from "./pages/car/Car";
 
 function App() {
     useEffect(() => {
