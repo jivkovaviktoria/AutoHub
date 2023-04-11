@@ -10,3 +10,8 @@ export const UploadManyImages = async (files) => {
     const response = await axios.post(`${baseUrl}/UploadMany`, data);
     return response;
 }
+
+export const GetByCarId = async (carId) => {
+    const response = await axios.get(`${baseUrl}/GetByCarId?carId=${carId}`);
+    return response.data;
+}
