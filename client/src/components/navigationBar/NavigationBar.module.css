@@ -6,9 +6,12 @@
     font-family: Arial, "Segoe UI Light";
     box-sizing: border-box;
 }
-
+.navBar{
+    z-index: 1;
+}
 .hamburger{
     display: none;
+    z-index: 1;
 }
 .logo{
     font-size: 28px;
