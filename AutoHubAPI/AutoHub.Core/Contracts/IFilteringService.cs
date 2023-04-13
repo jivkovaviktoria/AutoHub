@@ -9,4 +9,5 @@ public interface IFilteringService<TEntity>
 {
     Task<OperationResult<IEnumerable<TEntity>>> OrderBy(OrderDefinition orderDefinition);
     Task<OperationResult<IEnumerable<TEntity>>> FilterByPrice(PriceFilterDefinition filterDefinition);
+    Task<OperationResult<IEnumerable<TEntity>>> FilterByYear(YearFilterDefinition filterDefinition);
 }

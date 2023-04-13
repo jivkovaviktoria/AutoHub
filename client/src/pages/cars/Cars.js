@@ -83,7 +83,8 @@
                     </label>
                     <button onClick={orderHandler}>Order</button>
                 </div>
-                <Filter onFilter={setCarsHandler} />
+                <Filter onFilter={setCarsHandler} filterName="Price"/>
+                <Filter onFilter={setCarsHandler} filterName="Year"/>
                 <div className={styles["cars-wrapper"]}>
                     {isLoading ? (
                         <div className={styles.loading}>

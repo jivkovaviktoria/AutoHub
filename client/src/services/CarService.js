@@ -48,3 +48,8 @@ export const FilterByPrice = async (filter) => {
     const response = await axios.get(`${baseUrl}/FilterByPrice?Min=${filter.Min}&Max=${filter.Max}`, config);
     return response.data;
 }
+
+export const FilterByYear = async (filter) => {
+    const response = await axios.get(`${baseUrl}/FilterByYear?Min=${filter.Min}&Max=${filter.Max}`, config);
+    return response.data;
+}

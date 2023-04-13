@@ -1,7 +1,8 @@
 import {useState} from "react";
 import {PriceFilter} from "../../filters/priceFilter/PriceFilter";
+import {YearFilter} from "../../filters/yearFilter/YearFilter";
 
-export const Filter = ({onFilter}) => {
+export const Filter = ({onFilter, filterName}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const closeHandler = () => {
@@ -10,8 +11,9 @@ export const Filter = ({onFilter}) => {
 
     return (
         <>
-            <button onClick={() => setIsOpen(true)}>Price</button>
-            {isOpen && <PriceFilter onFilter={onFilter} onClose={closeHandler}/>}
+            <button onClick={() => setIsOpen(true)}>{filterName}</button>
+            {isOpen && filterName === "Price" && <PriceFilter onFilter={onFilter} onClose={closeHandler}/>}
+            {isOpen && filterName === "Year" && <YearFilter onFilter={onFilter} onClose={closeHandler}/>}
         </>
     );
 }

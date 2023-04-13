@@ -75,6 +75,16 @@ public class CarsController : ControllerBase
         return this.Ok(result.Data);
     }
 
+    [HttpGet]
+    [Route("/FilterByYear")]
+    public async Task<IActionResult> FilterByYear([FromQuery] YearFilterDefinition filterDefinition)
+    {
+        var result = await this._filteringService.FilterByYear(filterDefinition);
+        if (!result.IsSuccessful) return this.Error(result);
+
+        return this.Ok(result.Data);
+    }
+
     [HttpGet, Authorize]
     [Route("GetCarsByUser")]
     public async Task<IActionResult> GetCarsByUser()

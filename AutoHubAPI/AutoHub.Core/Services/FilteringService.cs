@@ -49,4 +49,18 @@ public class FilteringService : IFilteringService<Car>
 
         return operationResult.WithData(filteredEntities);
     }
+
+    public async Task<OperationResult<IEnumerable<Car>>> FilterByYear(YearFilterDefinition filterDefinition)
+    {
+        var operationResult = new OperationResult<IEnumerable<Car>>();
+        
+        var result = await this._service.GetManyAsync();
+        if (!result.IsSuccessful) return operationResult.AppendErrors(result);
+
+        var entities = result.Data;
+
+        var filteredEntities = entities.Where(x => x.Year >= filterDefinition.Min && x.Year <= filterDefinition.Max);
+
+        return operationResult.WithData(filteredEntities);
+    }
 }
