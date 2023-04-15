@@ -62,6 +62,8 @@ public class FilteringServiceTests
     public async void FilterByPriceShouldReturnsFilteredCollection()
     {
         var filterDefinition = new PriceFilterDefinition() { Min = 2000, Max = 10000 };
+        var globalFilter = new GlobalCarFilter() { Price = filterDefinition };
+        
         List<Car> cars = new();
 
         var carRandomizer = new CarRandomizer();
@@ -74,8 +76,8 @@ public class FilteringServiceTests
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
         var filteringService = new FilteringService(mockService.Object);
-
-        var result = await filteringService.FilterByPrice(filterDefinition);
+        
+        var result = await filteringService.Filter(cars, globalFilter);
         
         Assert.True(result.IsSuccessful);
         Assert.Equal(expected, result.Data);

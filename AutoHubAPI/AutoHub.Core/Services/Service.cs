@@ -1,4 +1,5 @@
 ﻿using AutoHub.Core.Contracts;
+using AutoHub.Core.FilterDefinitions;
 using AutoHub.Data.Contracts;
 using AutoHub.Utilities;
 

@@ -45,13 +45,14 @@ public class CarsController : ControllerBase
 
     [HttpGet, Authorize]
     [Route("/AllCars")]
-    public async Task<IActionResult> GetAllCars()
+    public async Task<IActionResult> GetAllCars(GlobalCarFilter? filter)
     {
         var cars = await this._carService.GetManyAsync();
-        
         if (!cars.IsSuccessful) return this.Error(cars);
 
-        var result = cars.Data.Select(x => this.ToViewModel(x));
+        var filteredCars = await this._filteringService.Filter(cars.Data, filter);
+
+        var result = filteredCars.Data.Select(x => this.ToViewModel(x));
         return this.Ok(result);
     }
     
@@ -62,26 +63,6 @@ public class CarsController : ControllerBase
         var result = await this._filteringService.OrderBy(order);
         if (!result.IsSuccessful) return this.Error(result);
         
-        return this.Ok(result.Data);
-    }
-
-    [HttpGet]
-    [Route("/FilterByPrice")]
-    public async Task<IActionResult> FilterByPrice([FromQuery]PriceFilterDefinition filterDefinition)
-    {
-        var result = await this._filteringService.FilterByPrice(filterDefinition);
-        if (!result.IsSuccessful) return this.Error(result);
-
-        return this.Ok(result.Data);
-    }
-
-    [HttpGet]
-    [Route("/FilterByYear")]
-    public async Task<IActionResult> FilterByYear([FromQuery] YearFilterDefinition filterDefinition)
-    {
-        var result = await this._filteringService.FilterByYear(filterDefinition);
-        if (!result.IsSuccessful) return this.Error(result);
-
         return this.Ok(result.Data);
     }
 
