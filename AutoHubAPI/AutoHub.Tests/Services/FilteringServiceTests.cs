@@ -82,4 +82,60 @@ public class FilteringServiceTests
         Assert.True(result.IsSuccessful);
         Assert.Equal(expected, result.Data);
     }
+
+    [Fact]
+    public async void FilterWithMultipleFilterDefinitionsShouldWorkCorrectly()
+    {
+        var priceFilter = new PriceFilterDefinition() { Min = 1, Max = 10000 };
+        var yearFilter = new YearFilterDefinition() { Min = 2000, Max = 2023 };
+
+        var globalFilter = new GlobalCarFilter()
+        {
+            Price = priceFilter, Year = yearFilter, Models = new List<string>{ "Audi" },
+            Brands = new List<string>() { "Rs7" }
+        };
+
+        List<Car> cars = new();
+        
+        var carRandomizer = new CarRandomizer();
+        for(int i = 0; i < 10; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        
+        cars.Add(new Car(){Price = 1000, Year = 2010, Brand = "rs7", Model = "audi"});
+        
+        var mockService = new Mock<IService<Car>>();
+        mockService.Setup(s => s.GetManyAsync())
+            .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
+        
+        var filteringService = new FilteringService(mockService.Object);
+        
+        var result = await filteringService.Filter(cars, globalFilter);
+        
+        var expected = cars.Where(x =>
+            x.Price >= priceFilter.Min && x.Price <= priceFilter.Max && x.Year >= yearFilter.Min &&
+            x.Year <= yearFilter.Max && globalFilter.Models.Contains(x.Model, StringComparer.OrdinalIgnoreCase) &&
+            globalFilter.Brands.Contains(x.Brand, StringComparer.OrdinalIgnoreCase));
+        
+        Assert.True(result.IsSuccessful);
+        Assert.Equal(expected, result.Data);
+    }
+
+    [Fact]
+    public async void FilterWithNullGlobalFilterShouldWorkCorectly()
+    {
+        List<Car> cars = new();
+        
+        var carRandomizer = new CarRandomizer();
+        for(int i = 0; i < 10; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        
+        var mockService = new Mock<IService<Car>>();
+        mockService.Setup(s => s.GetManyAsync())
+            .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
+        
+        var filteringService = new FilteringService(mockService.Object);
+
+        var result = await filteringService.Filter(cars, null);
+        
+        Assert.True(result.IsSuccessful);
+        Assert.Equal(cars, result.Data);
+    }
 }
