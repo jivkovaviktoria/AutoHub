@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jivkovaviktoria_AutoHub&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jivkovaviktoria_AutoHub) ![example workflow](https://github.com/jivkovaviktoria/AutoHub/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/jivkovaviktoria/AutoHub)
+
 # AutoHub
 
 Welcome to AutoHub, a web-based platform designed to make buying and selling cars easy and convenient. AutoHub offers a range of features, including browsing listings, adding cars to favorites, and adding your own car to the platform for sale. 
