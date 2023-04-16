@@ -5,33 +5,49 @@ using AutoHub.Data.Models;
 using AutoHub.Tests.Randomizers;
 using AutoHub.Utilities;
 using Moq;
+using TryAtSoftware.Equalizer.Core;
+using TryAtSoftware.Equalizer.Core.ProfileProviders;
+using TryAtSoftware.Equalizer.Core.Profiles.General;
 
 namespace AutoHub.Tests.Services;
 
 public class FilteringServiceTests
 {
+    private readonly Equalizer _equalizer;
+    private readonly Mock<IService<Car>> _mockService;
+    private readonly CarRandomizer _carRandomizer;
+
+    public FilteringServiceTests()
+    {
+        var profileProvider = new DedicatedProfileProvider();
+        profileProvider.AddProfile(new GeneralEqualizationProfile<Car>());
+        
+        this._equalizer = new Equalizer();
+        this._equalizer.AddProfileProvider(profileProvider);
+
+        this._carRandomizer = new CarRandomizer();
+        this._mockService = new Mock<IService<Car>>();
+    }
+    
     [Fact]
     public async void OrderByShouldReturnCorrectlyOrderedCollectionAscending()
     {
         var orderDefinition = new OrderDefinition() { Property = "Price", IsAscending = true };
 
         List<Car> cars = new();
-
-        var carRandomizer = new CarRandomizer();
-        for (int i = 0; i < 5; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        for (int i = 0; i < 5; i++) cars.Add(this._carRandomizer.PrepareRandomValue());
         
         var expected = cars.OrderBy(x => x.Price);
 
-        var mockService = new Mock<IService<Car>>();
-        mockService.Setup(s => s.GetManyAsync())
+        this._mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
-        var filteringService = new FilteringService(mockService.Object);
+        var filteringService = new FilteringService(this._mockService.Object);
 
         var result = await filteringService.OrderBy(orderDefinition);
         
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(expected, result.Data);
+        this._equalizer.AssertEquality(true, result.IsSuccessful);
+        this._equalizer.AssertEquality(expected, result.Data);
     }
 
     [Fact]
@@ -40,22 +56,19 @@ public class FilteringServiceTests
         var orderDefinition = new OrderDefinition() { Property = "Price", IsAscending = false };
 
         List<Car> cars = new();
-
-        var carRandomizer = new CarRandomizer();
-        for (int i = 0; i < 5; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        for (int i = 0; i < 5; i++) cars.Add(this._carRandomizer.PrepareRandomValue());
         
         var expected = cars.OrderByDescending(x => x.Price);
 
-        var mockService = new Mock<IService<Car>>();
-        mockService.Setup(s => s.GetManyAsync())
+        this._mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
-        var filteringService = new FilteringService(mockService.Object);
+        var filteringService = new FilteringService(this._mockService.Object);
 
         var result = await filteringService.OrderBy(orderDefinition);
         
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(expected, result.Data);
+        this._equalizer.AssertEquality(true, result.IsSuccessful);
+        this._equalizer.AssertEquality(expected, result.Data);
     }
 
     [Fact]
@@ -65,22 +78,19 @@ public class FilteringServiceTests
         var globalFilter = new GlobalCarFilter() { Price = filterDefinition };
         
         List<Car> cars = new();
-
-        var carRandomizer = new CarRandomizer();
-        for(int i = 0; i < 5; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        for(int i = 0; i < 5; i++) cars.Add(this._carRandomizer.PrepareRandomValue());
 
         var expected = cars.Where(x => x.Price >= filterDefinition.Min && x.Price <= filterDefinition.Max);
 
-        var mockService = new Mock<IService<Car>>();
-        mockService.Setup(s => s.GetManyAsync())
+        this._mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
 
-        var filteringService = new FilteringService(mockService.Object);
+        var filteringService = new FilteringService(this._mockService.Object);
         
         var result = await filteringService.Filter(cars, globalFilter);
         
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(expected, result.Data);
+        this._equalizer.AssertEquality(true, result.IsSuccessful);
+        this._equalizer.AssertEquality(expected, result.Data);
     }
 
     [Fact]
@@ -96,17 +106,14 @@ public class FilteringServiceTests
         };
 
         List<Car> cars = new();
-        
-        var carRandomizer = new CarRandomizer();
-        for(int i = 0; i < 10; i++) cars.Add(carRandomizer.PrepareRandomValue());
+        for(int i = 0; i < 10; i++) cars.Add(this._carRandomizer.PrepareRandomValue());
         
         cars.Add(new Car(){Price = 1000, Year = 2010, Brand = "rs7", Model = "audi"});
         
-        var mockService = new Mock<IService<Car>>();
-        mockService.Setup(s => s.GetManyAsync())
+        this._mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
         
-        var filteringService = new FilteringService(mockService.Object);
+        var filteringService = new FilteringService(this._mockService.Object);
         
         var result = await filteringService.Filter(cars, globalFilter);
         
@@ -115,27 +122,24 @@ public class FilteringServiceTests
             x.Year <= yearFilter.Max && globalFilter.Models.Contains(x.Model, StringComparer.OrdinalIgnoreCase) &&
             globalFilter.Brands.Contains(x.Brand, StringComparer.OrdinalIgnoreCase));
         
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(expected, result.Data);
+        this._equalizer.AssertEquality(true, result.IsSuccessful);
+        this._equalizer.AssertEquality(expected, result.Data);
     }
 
     [Fact]
     public async void FilterWithNullGlobalFilterShouldWorkCorectly()
     {
         List<Car> cars = new();
+        for(int i = 0; i < 10; i++) cars.Add(this._carRandomizer.PrepareRandomValue());
         
-        var carRandomizer = new CarRandomizer();
-        for(int i = 0; i < 10; i++) cars.Add(carRandomizer.PrepareRandomValue());
-        
-        var mockService = new Mock<IService<Car>>();
-        mockService.Setup(s => s.GetManyAsync())
+        this._mockService.Setup(s => s.GetManyAsync())
             .ReturnsAsync(new OperationResult<IEnumerable<Car>>() { Data = cars });
         
-        var filteringService = new FilteringService(mockService.Object);
+        var filteringService = new FilteringService(this._mockService.Object);
 
         var result = await filteringService.Filter(cars, null);
         
-        Assert.True(result.IsSuccessful);
-        Assert.Equal(cars, result.Data);
+        this._equalizer.AssertEquality(true, result.IsSuccessful);
+        this._equalizer.AssertEquality(cars, result.Data);
     }
 }
