@@ -56,7 +56,7 @@ jobs:
       run: dotnet build ./AutoHubAPI/AutoHubAPI.sln --no-restore --configuration "${{ env.CONFIGURATION }}"
     
     - name: Test
-      run: dotnet test ./AutoHubAPI/AutoHubAPI.sln --no-build --verbosity normal --configuration "${{ env.CONFIGURATION }}" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      run: dotnet test ./AutoHubAPI/AutoHubAPI.sln --no-build --configuration "${{ env.CONFIGURATION }}" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
     - name: Finalize analyzation with SonarCloud
       run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
