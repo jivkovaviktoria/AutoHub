@@ -8,24 +8,37 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: '6.0.x'
     - name: Restore dependencies
       run: dotnet restore ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj
     - name: Build
       run: dotnet build ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-restore
     - name: Test
       run: dotnet test ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
-    - name: Coveralls
-      uses: coverallsapp/coveralls-action@v2.2.0
+    - name: Publish coverage report
+      uses: actions/upload-artifact@v2
       with:
-       github-token: ${{ secrets.GITHUB_TOKEN }}
-       path-to-lcov: ./TestResults/coverage.xml
-
+        name: coverage-report
+        path: ./TestResults/coverage-html
+    - name: Send coverage data to Coveralls
+      uses: coverallsapp/coveralls-action@v2.4.3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        coveralls-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        path-to-lcov: ./TestResults/coverage.info
+    - name: Publish code coverage
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        flags: unittests
+        fail_ci_if_error: true
