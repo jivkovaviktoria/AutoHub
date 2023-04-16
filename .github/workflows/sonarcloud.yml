@@ -43,8 +43,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"WolfStrength_AutoHub" /o:"wolfstrength" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"jivkovaviktoria_AutoHub" /o:"jivkovaviktoria" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
             dotnet restore ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj
             dotnet build ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-restore
+            dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
             dotnet test ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-build --verbosity normal
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
