@@ -22,4 +22,5 @@ jobs:
     - name: Build
       run: dotnet build ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-restore
     - name: Test
-      run: dotnet test ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-build --verbosity normal
+      run: dotnet test ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+
