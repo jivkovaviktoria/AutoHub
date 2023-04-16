@@ -38,7 +38,8 @@ public class CarsController : ControllerBase
         var result = await this._carService.GetAsync(id);
         
         if (!result.IsSuccessful) return this.Error(result);
-            
+        if (result.Data is null) return this.NotFound();
+        
         var car = result.Data;
         return this.Ok(car);
     }
@@ -50,10 +51,14 @@ public class CarsController : ControllerBase
         var cars = await this._carService.GetManyAsync();
         if (!cars.IsSuccessful) return this.Error(cars);
 
-        var filteredCars = await this._filteringService.Filter(cars.Data, filter);
+        if (filter != null)
+        {
+            var filteredCars = await this._filteringService.Filter(cars.Data, filter);
+            var result = filteredCars.Data.Select(x => this.ToViewModel(x));
+            return this.Ok(result);
+        }
 
-        var result = filteredCars.Data.Select(x => this.ToViewModel(x));
-        return this.Ok(result);
+        return this.Ok(cars.Data);
     }
     
     [HttpGet]
