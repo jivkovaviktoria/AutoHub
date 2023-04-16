@@ -22,10 +22,10 @@ jobs:
         dotnet-version: 6.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./AutoHubAPI/AutoHubAPI.sln
 
     - name: Build
-      run: dotnet build --no-restore --configuration "${{ env.CONFIGURATION }}"
+      run: dotnet build ./AutoHubAPI/AutoHubAPI.sln --no-restore --configuration "${{ env.CONFIGURATION }}"
     
     - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration "${{ env.CONFIGURATION }}"
+      run: dotnet test ./AutoHubAPI/AutoHubAPI.sln --no-build --verbosity normal --configuration "${{ env.CONFIGURATION }}"
