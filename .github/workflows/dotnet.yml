@@ -23,4 +23,9 @@ jobs:
       run: dotnet build ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-restore
     - name: Test
       run: dotnet test ./AutoHubAPI/AutoHub.API/AutoHub.API.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    - name: Coveralls
+      uses: coverallsapp/coveralls-action@v2.2.0
+      with:
+       github-token: ${{ secrets.GITHUB_TOKEN }}
+       path-to-lcov: ./TestResults/coverage.xml
 
