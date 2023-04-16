@@ -8,16 +8,15 @@ namespace AutoHub.Data.Repositories;
 
 public class CloudinaryRepository : ICloudinaryRepository
 {
-    private readonly IConfiguration _configuration;
     private readonly Account _account;
 
     public CloudinaryRepository(IConfiguration configuration)
     {
-        this._configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        IConfigurationSection config = configuration.GetSection("Cloudinary");
 
-        this._account = new Account(this._configuration.GetSection("Cloudinary")["Name"],
-            this._configuration.GetSection("Cloudinary")["Key"],
-            this._configuration.GetSection("Cloudinary")["Secret"]);
+        this._account = new Account(config.GetSection("Cloudinary")["Name"],
+            config.GetSection("Cloudinary")["Key"],
+            config.GetSection("Cloudinary")["Secret"]);
     }
     
     public async Task<string> UploadImage(IFormFile file)

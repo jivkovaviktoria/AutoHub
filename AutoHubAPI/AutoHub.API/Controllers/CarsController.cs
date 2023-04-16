@@ -4,7 +4,7 @@ using AutoHub.Core.Contracts;
 using AutoHub.Core.FilterDefinitions;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
-using AutoHub.Data.ViewModels;
+using AutoHub.Data.Models.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -71,8 +71,12 @@ public class CarsController : ControllerBase
     public async Task<IActionResult> GetCarsByUser()
     {
         var claims = HttpContext.User;
+        
+        var userName = claims.Identity?.Name;
+        if (string.IsNullOrEmpty(userName)) return BadRequest("Invalid user name.");
+        
         var user = await this._userManager.Users
-            .Where(u => u.UserName == claims.Identity.Name)
+            .Where(u => u.UserName == userName)
             .Include(x => x.Cars)
             .Select(u => new { Cars = u.Cars.Select(c => new { c.Model, c.Brand, c.Year, c.Price, c.ImageUrl, c.Description }) })
             .ToListAsync();

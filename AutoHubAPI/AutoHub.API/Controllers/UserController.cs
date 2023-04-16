@@ -2,7 +2,7 @@
 using AutoHub.Core.Contracts;
 using AutoHub.Data;
 using AutoHub.Data.Models;
-using AutoHub.Data.ViewModels;
+using AutoHub.Data.Models.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -32,8 +32,12 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetFavourite()
     {
         var claims = HttpContext.User;
+        
+        var userName = claims.Identity?.Name;
+        if (string.IsNullOrEmpty(userName)) return BadRequest("Invalid user name.");
+        
         var user = await this._userManager.Users
-            .Where(u => u.UserName == claims.Identity.Name)
+            .Where(u => u.UserName == userName)
             .Include(x => x.FavouriteCars)
             .Select(us => new
             {
@@ -55,7 +59,8 @@ public class UserController : ControllerBase
         if (car is null) return this.NotFound(car);
         
         var user = await this.GetUser();
-
+        if (user is null) return this.BadRequest("User not found.");
+        
         user.FavouriteCars.Add(car);
         car.UsersFavourite.Add(user);
         
@@ -65,7 +70,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("/User")]
-    public async Task<IActionResult> User()
+    public new async Task<IActionResult> User()
     {
         var user = await this.GetUser();
         
@@ -73,19 +78,12 @@ public class UserController : ControllerBase
         return this.Ok(user);
     }
 
-    private async Task<User> GetUser()
+    private async Task<User?> GetUser()
     {
         var claims = HttpContext.User;
         var user = await this._userManager.FindByNameAsync(claims.Identity?.Name);
         
         return user;
-    }
-    
-    private Car ToDatabaseModel(CarInfoViewModel viewModel)
-    {
-        var car = this._mapper.Map<Car>(viewModel);
-        car.Id = Guid.NewGuid();
-        return car;
     }
 
     private static object ToViewModel(Car car, IMapper mapper)

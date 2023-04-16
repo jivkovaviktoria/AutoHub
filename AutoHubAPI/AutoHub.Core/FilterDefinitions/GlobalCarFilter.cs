@@ -9,7 +9,7 @@ public class GlobalCarFilter
     public IEnumerable<string>? Models { get; set; }
     public IEnumerable<string>? Brands { get; set; }
 
-    public async Task<IEnumerable<Car>> Filter(IEnumerable<Car> cars)
+    public IEnumerable<Car> Filter(IEnumerable<Car> cars)
     {
         if (this.Price != null) cars = cars.Where(x => x.Price >= this.Price.Min && x.Price <= this.Price.Max);
         if (this.Year != null) cars = cars.Where(x => x.Year >= this.Year.Min && x.Year <= this.Year.Max);

@@ -28,18 +28,18 @@ public class FilteringService : IFilteringService<Car>
             BindingFlags.IgnoreCase |
             BindingFlags.Public |
             BindingFlags.Instance);
-
-        if (orderDefinition.IsAscending) entities = entities.OrderBy(x => prop.GetValue(x, null)).ToList();
-        else entities = entities.OrderByDescending(x => prop.GetValue(x, null)).ToList();
+        
+        if (prop != null && entities != null && orderDefinition.IsAscending) entities = entities.OrderBy(x => prop.GetValue(x, null)).ToList();
+        else if(prop != null && entities != null) entities = entities.OrderByDescending(x => prop.GetValue(x, null)).ToList();
 
         return operationResult.WithData(entities);
     }
 
-    public async Task<OperationResult<IEnumerable<Car>>> Filter(IEnumerable<Car> cars, GlobalCarFilter? filter)
+    public async Task<OperationResult<IEnumerable<Car>>> Filter(IEnumerable<Car> cars, GlobalCarFilter? carFilter)
     {
-        if (filter != null)
+        if (carFilter != null)
         {
-            var result = await filter.Filter(cars);
+            var result = carFilter.Filter(cars);
             return new OperationResult<IEnumerable<Car>>() { Data = result };
         }
 

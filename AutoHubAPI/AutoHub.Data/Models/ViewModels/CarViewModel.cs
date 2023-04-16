@@ -1,4 +1,4 @@
-﻿namespace AutoHub.Data.ViewModels;
+﻿namespace AutoHub.Data.Models.ViewModels;
 
 public class CarInfoViewModel
 {
@@ -10,5 +10,5 @@ public class CarInfoViewModel
     public string ImageUrl { get; set; } = null!;
     public string Description { get; set; } = null!;
 
-    public List<string> Images { get; set; }
+    public List<string> Images { get; set; } 
 }

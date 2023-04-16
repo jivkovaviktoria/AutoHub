@@ -46,7 +46,7 @@ public static class ServiceConfigurator
                             Id="Bearer"
                         }
                     },
-                    new string[]{}
+                    Array.Empty<string>()
                 }
             });
         });

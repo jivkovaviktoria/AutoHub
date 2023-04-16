@@ -22,7 +22,7 @@ public class TokenService
         return tokenHandler.WriteToken(token);
     }
 
-    private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials,
+    private static JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials,
         DateTime expiration) =>
         new(
             "apiWithAuthBackend",
@@ -32,7 +32,7 @@ public class TokenService
             signingCredentials: credentials
         );
 
-    private List<Claim> CreateClaims(IdentityUser user)
+    private static List<Claim> CreateClaims(IdentityUser user)
     {
         try
         {
@@ -53,7 +53,7 @@ public class TokenService
             throw;
         }
     }
-    private SigningCredentials CreateSigningCredentials()
+    private static SigningCredentials CreateSigningCredentials()
     {
         return new SigningCredentials(
             new SymmetricSecurityKey(

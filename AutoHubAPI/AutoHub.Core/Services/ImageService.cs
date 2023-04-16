@@ -8,12 +8,9 @@ namespace AutoHub.Core.Services;
 public class ImageService : Service<Image>
 {
     private readonly ICloudinaryRepository _cloudinaryRepository;
-    private readonly IRepository<Image> _imageRepository;
-
     public ImageService(ICloudinaryRepository cloudinaryRepository, IRepository<Image> imagesRepository) : base(imagesRepository)
     {
         this._cloudinaryRepository = cloudinaryRepository ?? throw new ArgumentNullException(nameof(cloudinaryRepository));
-        this._imageRepository = imagesRepository ?? throw new ArgumentNullException(nameof(imagesRepository));
     }
 
     public async Task<List<string>> AddRange(List<IFormFile> files)

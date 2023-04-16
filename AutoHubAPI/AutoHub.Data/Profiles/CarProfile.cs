@@ -1,5 +1,5 @@
 ﻿using AutoHub.Data.Models;
-using AutoHub.Data.ViewModels;
+using AutoHub.Data.Models.ViewModels;
 using AutoMapper;
 
 namespace AutoHub.Data.Profiles;

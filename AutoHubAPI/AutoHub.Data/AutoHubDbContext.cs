@@ -12,24 +12,24 @@ public class AutoHubDbContext : IdentityUserContext<User>
     public DbSet<Car> Cars { get; set; }
     public DbSet<Image> Images { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Car>().HasKey(x => x.Id);
-        modelBuilder.Entity<Car>().Property(x => x.Model).IsRequired();
-        modelBuilder.Entity<Car>().Property(x => x.Brand).IsRequired();
-        modelBuilder.Entity<Car>().Property(x => x.ImageUrl).IsRequired();
-        modelBuilder.Entity<Car>().Property(x => x.Year).IsRequired();
-        modelBuilder.Entity<Car>().Property(x => x.Price).IsRequired();
+        builder.Entity<Car>().HasKey(x => x.Id);
+        builder.Entity<Car>().Property(x => x.Model).IsRequired();
+        builder.Entity<Car>().Property(x => x.Brand).IsRequired();
+        builder.Entity<Car>().Property(x => x.ImageUrl).IsRequired();
+        builder.Entity<Car>().Property(x => x.Year).IsRequired();
+        builder.Entity<Car>().Property(x => x.Price).IsRequired();
 
-        modelBuilder.Entity<Car>().HasOne(c => c.User)
+        builder.Entity<Car>().HasOne(c => c.User)
             .WithMany(u => u.Cars)
             .HasForeignKey(c => c.UserId);
 
-        modelBuilder.Entity<Car>().HasMany(c => c.UsersFavourite)
+        builder.Entity<Car>().HasMany(c => c.UsersFavourite)
             .WithMany(u => u.FavouriteCars);
 
-        modelBuilder.Entity<Image>().HasOne(i => i.Car).WithMany(c => c.Images).HasForeignKey(i => i.CarId);
+        builder.Entity<Image>().HasOne(i => i.Car).WithMany(c => c.Images).HasForeignKey(i => i.CarId);
 
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
     }
 }

@@ -24,15 +24,6 @@ public class Service<TEntity> : IService<TEntity>
         return operationResult.WithData(result.Data);
     }
 
-    public async Task<OperationResult<bool>> ExistAsync(Guid id)
-    {
-        var operationResult = new OperationResult<bool>();
-
-        var result = await this._repository.AnyAsync(id);
-        if (!result.IsSuccessful) return operationResult.AppendErrors(result);
-        return operationResult.WithData(result.Data);
-    }
-
     public async Task<OperationResult<TEntity>> GetAsync(Guid id)
     {
         var operationResult = new OperationResult<TEntity>();
