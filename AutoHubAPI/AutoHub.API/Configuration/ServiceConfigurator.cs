@@ -110,9 +110,9 @@ public static class ServiceConfigurator
     /// </summary>
     /// <param name="builder"></param>
     public static void ConfigureDatabase(this WebApplicationBuilder builder)
-    { 
+    {
+        
         builder.Services.AddDbContext<AutoHubDbContext>(options => options
-            .UseNpgsql(builder.Configuration
-                .GetConnectionString("DefaultConnection")));
+            .UseNpgsql(builder.Configuration["ConnectionStrings:AutoHub"]));
     }
 }
