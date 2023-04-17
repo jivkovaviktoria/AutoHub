@@ -1,10 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿namespace AutoHub.Utilities;
 
-namespace AutoHub.Utilities;
-
-public static class Extensions
+public static class OperationResultExtensions
 {
-    public static void AddException(this OperationResult operationResult, Exception exception)
+    public static void AddException(this OperationResult operationResult, Exception? exception)
     {
         if (operationResult is null) throw new ArgumentNullException(nameof(operationResult));
         if (exception is null) return;

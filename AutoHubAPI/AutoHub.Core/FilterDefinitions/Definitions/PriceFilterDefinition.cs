@@ -1,4 +1,4 @@
-﻿namespace AutoHub.Core.FilterDefinitions;
+﻿namespace AutoHub.Core.FilterDefinitions.Definitions;
 
 public class PriceFilterDefinition
 {

@@ -1,4 +1,5 @@
-﻿using AutoHub.Data.Models;
+﻿using AutoHub.Core.FilterDefinitions.Definitions;
+using AutoHub.Data.Models;
 
 namespace AutoHub.Core.FilterDefinitions;
 

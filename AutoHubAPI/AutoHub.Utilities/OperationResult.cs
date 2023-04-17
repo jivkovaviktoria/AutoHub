@@ -8,7 +8,7 @@ public class OperationResult
 
     public bool IsSuccessful => !this._errors.Any();
 
-    public bool AddError(Error error)
+    public bool AddError(Error? error)
     {
         if (error is null) return false;
         

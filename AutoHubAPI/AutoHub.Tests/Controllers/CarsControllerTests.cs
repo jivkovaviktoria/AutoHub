@@ -1,9 +1,9 @@
 ﻿using AutoHub.API.Controllers;
 using AutoHub.Core.Contracts;
 using AutoHub.Core.FilterDefinitions;
+using AutoHub.Core.FilterDefinitions.Definitions;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
-using AutoHub.Data.Models.ViewModels;
 using AutoHub.Tests.Randomizers;
 using AutoHub.Utilities;
 using AutoMapper;
@@ -30,6 +30,7 @@ public class CarsControllerTests
 
     public CarsControllerTests()
     {
+        Mock<UserManager<User>> mockUserManager;
         this._mockUserManager = new Mock<UserManager<User>>(new Mock<IUserStore<User>>().Object,
             null,
             null,

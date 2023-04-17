@@ -1,10 +1,11 @@
-﻿using System.Reflection;
-using AutoHub.API.Extensions;
+﻿using AutoHub.API.Extensions;
 using AutoHub.Core.Contracts;
 using AutoHub.Core.FilterDefinitions;
+using AutoHub.Core.FilterDefinitions.Definitions;
 using AutoHub.Data.Contracts;
 using AutoHub.Data.Models;
 using AutoHub.Data.Models.ViewModels;
+using AutoHub.Utilities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -46,19 +47,14 @@ public class CarsController : ControllerBase
 
     [HttpGet, Authorize]
     [Route("/AllCars")]
-    public async Task<IActionResult> GetAllCars(GlobalCarFilter? filter)
+    public async Task<IActionResult> GetAllCars([FromQuery]GlobalCarFilter? filter)
     {
         var cars = await this._carService.GetManyAsync();
         if (!cars.IsSuccessful) return this.Error(cars);
 
-        if (filter != null)
-        {
-            var filteredCars = await this._filteringService.Filter(cars.Data, filter);
-            var result = filteredCars.Data.Select(x => this.ToViewModel(x));
-            return this.Ok(result);
-        }
-
-        return this.Ok(cars.Data);
+        var filteredCars = await this._filteringService.Filter(cars.Data.OrEmptyIfNull(), filter);
+        var result = filteredCars.Data.OrEmptyIfNull().Select(x => this.ToViewModel(x));
+        return this.Ok(result);
     }
     
     [HttpGet]

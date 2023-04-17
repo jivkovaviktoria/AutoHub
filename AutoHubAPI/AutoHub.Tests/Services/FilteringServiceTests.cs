@@ -1,5 +1,6 @@
 ﻿using AutoHub.Core.Contracts;
 using AutoHub.Core.FilterDefinitions;
+using AutoHub.Core.FilterDefinitions.Definitions;
 using AutoHub.Core.Services;
 using AutoHub.Data.Models;
 using AutoHub.Tests.Randomizers;

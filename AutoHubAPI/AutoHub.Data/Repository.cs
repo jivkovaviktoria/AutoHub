@@ -66,7 +66,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         return operationResult;
     }
 
-    public async Task<OperationResult> CreateAsync(TEntity entity)
+    public async Task<OperationResult> CreateAsync(TEntity? entity)
     {
         var operationResult = new OperationResult();
         if (entity is null) return operationResult;
@@ -84,7 +84,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         return operationResult;
     }
 
-    public async Task<OperationResult> DeleteAsync(TEntity entity)
+    public async Task<OperationResult> DeleteAsync(TEntity? entity)
     {
         var operationResult = new OperationResult();
         if (entity is null) return operationResult;
