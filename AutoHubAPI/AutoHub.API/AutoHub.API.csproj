@@ -23,7 +23,6 @@
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
-        <PackageReference Include="TryAtSoftware.Extensions.Reflection" Version="1.1.1-alpha.3" />
     </ItemGroup>
 
     <ItemGroup>
