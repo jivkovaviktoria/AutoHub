@@ -84,7 +84,7 @@ public class CarsController : ControllerBase
         var user = await this._userManager.Users
             .Where(u => u.UserName == userName)
             .Include(x => x.Cars)
-            .Select(u => new { Cars = u.Cars.Select(c => new { c.Model, c.Brand, c.Year, c.Price, c.ImageUrl, c.Description }) })
+            .Select(u => new { Cars = u.Cars!.Select(c => new { c.Model, c.Brand, c.Year, c.Price, c.ImageUrl, c.Description }) })
             .ToListAsync();
 
         return this.Ok(user);
@@ -100,12 +100,12 @@ public class CarsController : ControllerBase
         List<Image> images = new();
         foreach (var link in entity.Images)
         {
-            var image = new Image() { Id = Guid.NewGuid(), Url = link, CarId = car.Id };
+            var image = new Image() { Id = Guid.NewGuid(), Url = link, CarId = car!.Id };
             await this._imageRepository.CreateAsync(image);
             images.Add(image);
         }
         
-        car.Images = images;
+        car!.Images = images;
         
         var result = await this._carService.CreateAsync(car);
         if (!result.IsSuccessful) return this.Error(result);
@@ -136,12 +136,13 @@ public class CarsController : ControllerBase
         return car;
     }
 
-    private async Task<Car> SetUserAsync(Car car)
+    private async Task<Car?> SetUserAsync(Car car)
     {
         var claims = HttpContext.User;
         var user = await this._userManager.FindByNameAsync(claims.Identity?.Name);
+        if (user is null) return null;
         
-        user.Cars.Add(car);
+        user.Cars!.Add(car);
         car.UserId = user.Id;
         return car;
     }

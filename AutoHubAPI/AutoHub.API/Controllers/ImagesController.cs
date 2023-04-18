@@ -46,7 +46,7 @@ public class ImagesController : ControllerBase
         var result = await this._imageService.GetManyAsync();
         if (!result.IsSuccessful) return this.Error(result);
 
-        var images = result.Data.Where(x => x.CarId == carId);
+        var images = result.Data?.Where(x => x.CarId == carId);
         return this.Ok(images);
     }
 }

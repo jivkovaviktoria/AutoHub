@@ -1,16 +1,11 @@
-﻿using System.Linq.Expressions;
-using AutoHub.Data;
+﻿using AutoHub.Data;
 using AutoHub.Data.Models;
 using AutoHub.Tests.Randomizers;
-using AutoHub.Utilities;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using TestSupport.EfHelpers;
 using TryAtSoftware.Equalizer.Core;
 using TryAtSoftware.Equalizer.Core.ProfileProviders;
 using TryAtSoftware.Equalizer.Core.Profiles.General;
 using TryAtSoftware.Randomizer.Core.Interfaces;
-using Xunit.Abstractions;
 namespace AutoHub.Tests.Repositories;
 
 public class BaseRepositoryTests
@@ -23,7 +18,7 @@ public class BaseRepositoryTests
     private readonly User _user;
     
 
-    public BaseRepositoryTests(ITestOutputHelper output)
+    public BaseRepositoryTests()
     {
         var profileProvider = new DedicatedProfileProvider();
         profileProvider.AddProfile(new GeneralEqualizationProfile<Car>());
@@ -109,7 +104,6 @@ public class BaseRepositoryTests
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
-        var cars = new List<Car>();
         for (int i = 0; i < 10; i++)
         {
             var car = this._carRandomizer.PrepareRandomValue();
