@@ -114,5 +114,8 @@ public static class ServiceConfigurator
         
         builder.Services.AddDbContext<AutoHubDbContext>(options => options
             .UseNpgsql(builder.Configuration["ConnectionStrings:AutoHub"]));
+
+        builder.Services.AddDbContext<TestDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
     }
 }

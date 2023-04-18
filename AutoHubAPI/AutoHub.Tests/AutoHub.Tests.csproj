@@ -9,11 +9,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EfCore.TestSupport" Version="5.3.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0-preview.3.23174.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-preview.3.23174.2" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
         <PackageReference Include="Moq" Version="4.18.4" />
         <PackageReference Include="TryAtSoftware.Equalizer" Version="1.0.1-alpha.3" />
         <PackageReference Include="TryAtSoftware.Randomizer" Version="1.0.4-alpha.4" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>

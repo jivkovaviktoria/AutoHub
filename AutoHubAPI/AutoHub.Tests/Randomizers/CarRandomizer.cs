@@ -14,7 +14,6 @@ public class CarRandomizer : ComplexRandomizer<Car>
         this.AddRandomizationRule(c => c.Price, new PriceRandomizer());
         this.AddRandomizationRule(c => c.Description, new StringRandomizer());
         this.AddRandomizationRule(c => c.Year, new NumberRandomizer());
-        this.AddRandomizationRule(c => c.UserId, new StringRandomizer());
         this.AddRandomizationRule(c => c.ImageUrl, new StringRandomizer());
     }
 }
