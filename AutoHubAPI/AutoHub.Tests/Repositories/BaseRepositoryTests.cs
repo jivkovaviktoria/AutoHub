@@ -44,17 +44,21 @@ public class BaseRepositoryTests
     [Fact]
     public async void TestTheDatabaseConnection()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
         this._repository = new Repository<Car>(this._context);
         
         Assert.NotNull(this._repository);
+
+        await this._context.Database.EnsureDeletedAsync();
     }
     
     [Fact]
     public async void TestGetAsyncShouldReturnCar()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
@@ -66,25 +70,29 @@ public class BaseRepositoryTests
         var result = await this._repository.GetAsync(car.Id);
         
         this._equalizer.AssertEquality(car, result.Data);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void TestGetAsyncWithInvalidIdShouldNotReturnEntity()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
         var result = await this._repository.GetAsync(Guid.NewGuid());
         
         this._equalizer.AssertEquality(null, result.Data);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void TestCreateAsyncShouldBeSuccessfull()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
-
+        
         var car = this._carRandomizer.PrepareRandomValue();
         car.User = this._user;
         car.UserId = this._user.Id;
@@ -92,24 +100,28 @@ public class BaseRepositoryTests
         var result = await this._repository.CreateAsync(car);
         
         this._equalizer.AssertEquality(true, result.IsSuccessful);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void TestCreateAsyncShouldNotBeSuccessfull()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
-
+        
         var car = this._carRandomizer.PrepareRandomValue();
 
         var result = await this._repository.CreateAsync(car);
         
         this._equalizer.AssertEquality(false, result.IsSuccessful);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void GetManyAsyncShouldReturnCollectionOfCars()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
@@ -126,11 +138,13 @@ public class BaseRepositoryTests
         
         this._equalizer.AssertEquality(true, result.IsSuccessful);
         this._equalizer.AssertEquality(10, result.Data?.Count());
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void TestAnyAsyncWithValidCarShouldReturnTrue()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
@@ -144,11 +158,13 @@ public class BaseRepositoryTests
         
         this._equalizer.AssertEquality(true, result.IsSuccessful);
         this._equalizer.AssertEquality(true, result.Data);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void TestAnyAsyncWithInvalidEntityShouldReturnFalse()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
@@ -156,11 +172,13 @@ public class BaseRepositoryTests
         
         this._equalizer.AssertEquality(true, result.IsSuccessful);
         this._equalizer.AssertEquality(false, result.Data);
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void DeleteWithValidCarShouldBeSuccessfull()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
@@ -174,11 +192,13 @@ public class BaseRepositoryTests
         
         this._equalizer.AssertEquality(true, result.IsSuccessful);
         this._equalizer.AssertEquality(0, this._context.Cars.Count());
+        await this._context.Database.EnsureDeletedAsync();
     }
 
     [Fact]
     public async void DeleteWithInvalidEntityShouldNotBeSuccessfull()
     {
+        await this._context.Database.MigrateAsync();
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
