@@ -11,3 +11,8 @@
 TestResults/
 
 appsettings.local.json
+
+.dockerignore
+docker-compose.dcproj
+docker-compose.override.yml
+
