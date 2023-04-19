@@ -1,4 +1,5 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jivkovaviktoria_AutoHub&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jivkovaviktoria_AutoHub) ![example workflow](https://github.com/jivkovaviktoria/AutoHub/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/jivkovaviktoria/AutoHub)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jivkovaviktoria_AutoHub&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jivkovaviktoria_AutoHub) ![example workflow](https://github.com/jivkovaviktoria/AutoHub/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/jivkovaviktoria/AutoHub) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jivkovaviktoria_AutoHub&metric=coverage)](https://sonarcloud.io/summary/new_code?id=jivkovaviktoria_AutoHub)
+
 
 # AutoHub
 
