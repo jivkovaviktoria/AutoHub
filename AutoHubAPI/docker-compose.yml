@@ -1,0 +1,14 @@
+services:
+  postgresql:
+    image: postgres:latest
+    container_name: "auto_hub_postgresql"
+    volumes:
+      - auto_hub_postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=viktoriya
+      - POSTGRES_PASSWORD=docker
+
+volumes:
+  auto_hub_postgresql_data:

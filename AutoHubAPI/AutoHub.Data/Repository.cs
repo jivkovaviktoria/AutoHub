@@ -7,9 +7,9 @@ namespace AutoHub.Data;
 public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class, IEntity
 {
-    private readonly AutoHubDbContext _context;
+    private readonly DbContext _context;
 
-    public Repository(AutoHubDbContext context)
+    public Repository(DbContext context)
     {
         this._context = context ?? throw new ArgumentNullException(nameof(context));
     }

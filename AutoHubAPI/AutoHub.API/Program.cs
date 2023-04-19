@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using AutoHub.API.Configuration;
+using AutoHub.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureServices();
 builder.ConfigureDatabase();
+
+builder.Services.AddDbContext<TestDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("TestConnectionString")));
 
 var app = builder.Build();
 

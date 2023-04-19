@@ -1,7 +1,8 @@
 ﻿using AutoHub.Data;
 using AutoHub.Data.Models;
 using AutoHub.Tests.Randomizers;
-using TestSupport.EfHelpers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TryAtSoftware.Equalizer.Core;
 using TryAtSoftware.Equalizer.Core.ProfileProviders;
 using TryAtSoftware.Equalizer.Core.Profiles.General;
@@ -12,25 +13,31 @@ public class BaseRepositoryTests
 {
     private readonly IRandomizer<Car> _carRandomizer;
     private readonly Equalizer _equalizer;
-    private readonly DbContextOptionsDisposable<AutoHubDbContext> _options;
-    private AutoHubDbContext _context;
-    private readonly Repository<Car> _repository;
+    private TestDbContext _context;
+    private Repository<Car> _repository;
     private readonly User _user;
     
 
     public BaseRepositoryTests()
     {
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: true)
+            .Build();
+
+        var connectionString = configuration.GetConnectionString("TestConnectionString");
+        
+        this._context = new TestDbContext(new DbContextOptionsBuilder<TestDbContext>()
+            .UseNpgsql(connectionString)
+            .Options);
+        
         var profileProvider = new DedicatedProfileProvider();
         profileProvider.AddProfile(new GeneralEqualizationProfile<Car>());
-        
         this._equalizer = new Equalizer();
         this._equalizer.AddProfileProvider(profileProvider);
 
         this._carRandomizer = new CarRandomizer();
-
-        this._options = SqliteInMemory.CreateOptions<AutoHubDbContext>();
-        this._context = new AutoHubDbContext(this._options);
         this._repository = new Repository<Car>(this._context);
+        
         this._user = new User() { Email = "test@gmail.com", Id = Guid.NewGuid().ToString(), UserName = "Test" };
     }
 
@@ -40,9 +47,11 @@ public class BaseRepositoryTests
         await this._context.Database.EnsureDeletedAsync();
         await this._context.Database.EnsureCreatedAsync();
 
+        this._repository = new Repository<Car>(this._context);
+        
         Assert.NotNull(this._repository);
     }
-
+    
     [Fact]
     public async void TestGetAsyncShouldReturnCar()
     {

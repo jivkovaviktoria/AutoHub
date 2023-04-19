@@ -154,4 +154,10 @@ public class BaseServiceTests
         Assert.True(result.IsSuccessful);
         this._equalizer.AssertEquality(entity, result.Data);
     }
+
+    [Fact]
+    public async void TestServiceConstructorShouldThrowException()
+    {
+        Assert.Throws<ArgumentNullException>(() => new Service<Car>(null));
+    }
 }

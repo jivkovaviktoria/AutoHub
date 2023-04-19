@@ -1,14 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoHub.API", "AutoHub.API\AutoHub.API.csproj", "{7E71FC96-57AA-4528-BC0C-9A01030D7E67}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHub.API", "AutoHub.API\AutoHub.API.csproj", "{7E71FC96-57AA-4528-BC0C-9A01030D7E67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoHub.Data", "AutoHub.Data\AutoHub.Data.csproj", "{F1CB53F1-C2A0-4D21-A9C6-B2B4F333B1AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHub.Data", "AutoHub.Data\AutoHub.Data.csproj", "{F1CB53F1-C2A0-4D21-A9C6-B2B4F333B1AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoHub.Utilities", "AutoHub.Utilities\AutoHub.Utilities.csproj", "{A3002529-0EAD-46FE-A82A-E47F83ADC3F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHub.Utilities", "AutoHub.Utilities\AutoHub.Utilities.csproj", "{A3002529-0EAD-46FE-A82A-E47F83ADC3F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoHub.Core", "AutoHub.Core\AutoHub.Core.csproj", "{A947C42F-C1E9-4B0C-869A-7F8587D8DA43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHub.Core", "AutoHub.Core\AutoHub.Core.csproj", "{A947C42F-C1E9-4B0C-869A-7F8587D8DA43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoHub.Tests", "AutoHub.Tests\AutoHub.Tests.csproj", "{F430703E-74FA-4917-B72F-586F9173BBB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoHub.Tests", "AutoHub.Tests\AutoHub.Tests.csproj", "{F430703E-74FA-4917-B72F-586F9173BBB0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6ED98AB4-EFE5-4024-9CEB-DBC94B2572EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +41,15 @@ Global
 		{F430703E-74FA-4917-B72F-586F9173BBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F430703E-74FA-4917-B72F-586F9173BBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F430703E-74FA-4917-B72F-586F9173BBB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED98AB4-EFE5-4024-9CEB-DBC94B2572EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED98AB4-EFE5-4024-9CEB-DBC94B2572EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED98AB4-EFE5-4024-9CEB-DBC94B2572EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED98AB4-EFE5-4024-9CEB-DBC94B2572EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E581E0C-94EA-4935-83ED-C8830782699D}
 	EndGlobalSection
 EndGlobal
