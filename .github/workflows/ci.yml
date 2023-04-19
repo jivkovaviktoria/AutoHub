@@ -13,6 +13,22 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         CONFIGURATION: Release
+        
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: viktoriya
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: AutoHubTest
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
@@ -47,7 +63,7 @@ jobs:
       run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
       
     - name: Start analyzation with SonarCloud
-      run: ./.sonar/scanner/dotnet-sonarscanner begin /k:"jivkovaviktoria_AutoHub" /o:"jivkovaviktoria" /d:sonar.cs.opencover.reportsPaths="./AutoHubAPI/**/coverage.opencover.xml" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverage.exclusions="**/Migrations/**"
+      run: ./.sonar/scanner/dotnet-sonarscanner begin /k:"jivkovaviktoria_AutoHub" /o:"jivkovaviktoria" /d:sonar.cs.opencover.reportsPaths="./AutoHubAPI/**/coverage.opencover.xml" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
     - name: Restore dependencies
       run: dotnet restore ./AutoHubAPI/AutoHubAPI.sln
