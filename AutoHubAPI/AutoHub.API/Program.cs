@@ -14,8 +14,6 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureServices();
 builder.ConfigureDatabase();
 
-builder.Services.AddDbContext<TestDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("TestConnectionString")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
