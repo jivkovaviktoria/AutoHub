@@ -18,3 +18,9 @@ export const SignUp = async (registerRequest) => {
     const response = await axios.post(`${baseUrl}/Auth/register`, registerRequest);
     return response.data;
 }
+
+export const GetUserInfo = async (userId) => {
+    const response = await axios.get(`${baseUrl}/UserById?id=${userId}`, config);
+    console.log(response.data);
+    return response.data;
+}

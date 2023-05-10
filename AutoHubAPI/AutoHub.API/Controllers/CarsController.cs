@@ -55,7 +55,7 @@ public class CarsController : ControllerBase
         if (filter != null)
         {
             var filteredCars = await this._filteringService.Filter(cars.Data.OrEmptyIfNull(), filter);
-            var result = filteredCars.Data.OrEmptyIfNull().Select(x => this.ToViewModel(x));
+            var result = filteredCars.Data.OrEmptyIfNull();
             return this.Ok(result);
         }
         

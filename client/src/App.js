@@ -7,13 +7,14 @@ import {Cars, Home, Add, Account} from "./pages/index";
 import {Car} from "./pages/car/Car";
 
 function App() {
+
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (token) {
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
             if (decodedToken.exp * 1000 < new Date().getTime()) sessionStorage.removeItem('token');
         }
-    });
+    }, []);
 
   return (
       <div className="App">

@@ -1,6 +1,6 @@
 import styles from './Card.module.css';
 import {BsBookmarkPlus, BsBookmarkPlusFill} from 'react-icons/bs';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export const Card = (props) => {
     const [isSaved, setISaved] = useState(false);

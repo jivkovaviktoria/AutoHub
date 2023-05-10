@@ -39,3 +39,10 @@ img{
     margin-left: -2px;
     float: left;
 }
+.user-container{
+    display: flex;
+    justify-content: center;
+}
+.user-button{
+    width: 100px;
+}

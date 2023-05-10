@@ -77,6 +77,19 @@ public class UserController : ControllerBase
         if (user is null) return this.NotFound();
         return this.Ok(user);
     }
+    
+    [HttpGet]
+    [Route("/UserById")]
+    public async Task<IActionResult> UserById(string id)
+    {
+        var user = await this._userManager
+            .Users
+            .Where(x => x.Id == id)
+            .Include(x => x.Cars)
+            .ToListAsync();
+
+        return this.Ok(user);
+    }
 
     private async Task<User?> GetUser()
     {

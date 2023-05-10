@@ -1,6 +1,28 @@
 import styles from './Info.module.css';
+import * as userService from "../../services/UserService";
+import {useState, useEffect} from "react";
+import {User} from "../user/User";
 
 export const Info = ({car, onClose}) => {
+    const [user, setUser] = useState({});
+    const [isUserSelected, setIsUserSelected] = useState(false);
+
+    useEffect(() => {
+        const handleUser = async () => {
+            await userService.GetUserInfo(car.userId).then(result => setUser(result.$values[0]));
+        }
+        handleUser();
+    }, []);
+
+    const selectUserHandler = () => {
+        setIsUserSelected(true);
+    }
+
+    if(isUserSelected){
+        return (<User user={user}/>);
+    }
+    console.log(user);
+
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles['info-window']}>
@@ -15,6 +37,7 @@ export const Info = ({car, onClose}) => {
                             <strong>{car.description}</strong>
                         </p>
                         <img src={car.imageUrl}/>
+                        <p><a onClick={selectUserHandler}>{user.userName}</a></p>
                     </div>
                 </div>
             </div>

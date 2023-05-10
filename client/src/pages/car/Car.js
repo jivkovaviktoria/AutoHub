@@ -1,13 +1,15 @@
 import styles from './Car.module.css';
 import * as ImageService from '../../services/ImageService';
 import {useEffect, useState} from "react";
+import * as userService from "../../services/UserService";
+import {User} from "../user/User";
 
 export const Car = ({car, onSelect}) => {
     const [images, setImages] = useState([]);
+    const [user, setUser] = useState({});
+    const [isUserSelected, setIsUserSelected] = useState(false);
 
-    const selectHandle = () => {
-        onSelect();
-    }
+    const selectHandle = () => { onSelect();}
 
     useEffect(()  => {
         const handleImages = async () => {
@@ -15,8 +17,16 @@ export const Car = ({car, onSelect}) => {
                 .then(images => setImages(images.$values));
         }
         handleImages();
+
+        const handleUser = async () => {
+            await userService.GetUserInfo(car.userId).then(result => setUser(result.$values[0]));
+        }
+        handleUser();
     }, []);
 
+    const selectUserHandler = () => { setIsUserSelected(true); }
+
+    if(isUserSelected) { return (<User user={user}/>); }
 
     return (
         <div className={styles.container}>
@@ -30,6 +40,9 @@ export const Car = ({car, onSelect}) => {
             </div>
             <div className={styles['images-container']}>
                 <div>{images.length > 0 && images.map((image) => (<img key={image.id} src={image.url}/>))}</div>
+            </div>
+            <div className={styles['user-container']}>
+                <button className={styles['user-button']} onClick={selectUserHandler}>{user.userName}</button>
             </div>
         </div>
     );
