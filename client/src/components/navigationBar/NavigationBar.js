@@ -8,6 +8,10 @@ export const NavigationBar = () => {
         setIsActive(!isActive);
     }
 
+    const logoutHandler = () => {
+        sessionStorage.removeItem('token');
+    }
+
     return (
         <header>
             <div className={styles.logo}>AUTO<span>hub</span></div>
@@ -22,6 +26,7 @@ export const NavigationBar = () => {
                     <li><a href='/cars/Cars'>Cars</a></li>
                     <li><a href='/add/Add'>Add</a></li>
                     <li><a href='/account/Account'>Account</a></li>
+                    <li><a href='/Auth' onClick={logoutHandler}>Logout</a></li>
                 </ul>
             </nav>
         </header>
