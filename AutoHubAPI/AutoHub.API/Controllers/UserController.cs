@@ -86,6 +86,7 @@ public class UserController : ControllerBase
             .Users
             .Where(x => x.Id == id)
             .Include(x => x.Cars)
+            .Include(x => x.ReceivedReviews)
             .ToListAsync();
 
         return this.Ok(user);

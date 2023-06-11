@@ -7,7 +7,7 @@ namespace AutoHub.Core.Services;
 public class Service<TEntity> : IService<TEntity>
     where TEntity : class, IEntity
 {
-    private readonly IRepository<TEntity> _repository;
+    protected readonly IRepository<TEntity> _repository;
 
     public Service(IRepository<TEntity> repository)
     {

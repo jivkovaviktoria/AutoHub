@@ -96,6 +96,7 @@ public static class ServiceConfigurator
         services.AddScoped(typeof(ImageService), typeof(ImageService));
         services.AddScoped(typeof(IFilteringService<Car>), typeof(FilteringService));
         services.AddScoped(typeof(IService<>), typeof(Service<>));
+        services.AddScoped<IReviewService, ReviewService>();
 
         var mapperConfig = new MapperConfiguration(mc => {
             mc.AddProfile(new CarProfile());

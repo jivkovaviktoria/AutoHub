@@ -30,6 +30,9 @@ public class AutoHubDbContext : IdentityUserContext<User>
 
         builder.Entity<Image>().HasOne(i => i.Car).WithMany(c => c.Images).HasForeignKey(i => i.CarId);
 
+        builder.Entity<Review>().HasOne(x => x.Owner).WithMany(x => x.WrittenReviews);
+        builder.Entity<Review>().HasOne(x => x.User).WithMany(x => x.ReceivedReviews);
+        
         base.OnModelCreating(builder);
     }
 }
