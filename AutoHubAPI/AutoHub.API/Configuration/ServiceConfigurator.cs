@@ -90,12 +90,13 @@ public static class ServiceConfigurator
     /// <param name="services">The IServiceCollection to configure.</param>
     public static void ConfigureServices(this IServiceCollection services)
     {
-        services.AddScoped<TokenService, TokenService>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(ICloudinaryRepository), typeof(CloudinaryRepository));
+        
+        services.AddScoped(typeof(IService<>), typeof(Service<>));
+        services.AddScoped<TokenService, TokenService>();
         services.AddScoped(typeof(ImageService), typeof(ImageService));
         services.AddScoped(typeof(IFilteringService<Car>), typeof(FilteringService));
-        services.AddScoped(typeof(IService<>), typeof(Service<>));
         services.AddScoped<IReviewService, ReviewService>();
 
         var mapperConfig = new MapperConfiguration(mc => {
@@ -112,7 +113,6 @@ public static class ServiceConfigurator
     /// <param name="builder"></param>
     public static void ConfigureDatabase(this WebApplicationBuilder builder)
     {
-        
         builder.Services.AddDbContext<DbContext, AutoHubDbContext>(options => options
             .UseNpgsql(builder.Configuration["ConnectionStrings:AutoHub"]));
     }

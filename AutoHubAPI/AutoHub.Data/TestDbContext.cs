@@ -1,6 +1,5 @@
 ﻿using AutoHub.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace AutoHub.Data;
 
@@ -28,6 +27,9 @@ public class TestDbContext : DbContext
         builder.Entity<Car>().HasMany(c => c.UsersFavourite)
             .WithMany(u => u.FavouriteCars);
 
+        builder.Entity<Review>().HasOne(x => x.Owner).WithMany(x => x.WrittenReviews);
+        builder.Entity<Review>().HasOne(x => x.User).WithMany(x => x.ReceivedReviews);
+        
         builder.Entity<Image>().HasOne(i => i.Car).WithMany(c => c.Images).HasForeignKey(i => i.CarId);
 
         base.OnModelCreating(builder);
